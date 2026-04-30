@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>GoLove · OG cover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      background: #FAF6EA;
+    }
+    .og {
+      width: 1200px; height: 630px;
+      box-sizing: border-box;
+      padding: 80px 96px;
+      background: #FAF6EA;
+      color: #2B2A28;
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+    }
+    .og::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, #E8DFC8 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    .accent-bar {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 18px;
+      background: linear-gradient(180deg, #00ADD8, #D86A8E);
+    }
+    .brand {
+      font-size: 124px; font-weight: 800; line-height: 1;
+      letter-spacing: -2px;
+      margin: 0 0 28px 0;
+      display: flex; align-items: center; gap: 28px;
+      position: relative;
+    }
+    .brand .gopher { color: #00ADD8; font-size: 104px; }
+    .brand .heart { color: #D86A8E; font-size: 96px; }
+    .tagline {
+      font-size: 38px; font-weight: 500; line-height: 1.3;
+      color: #4A4944;
+      margin: 0 0 22px 0;
+      position: relative;
+    }
+    .tagline .en {
+      display: block;
+      color: #6B6660; font-size: 26px; margin-top: 8px; font-weight: 400;
+    }
+    .meta {
+      font-size: 22px; font-weight: 600;
+      color: #6B6660;
+      letter-spacing: 0.4px;
+      margin: 0;
+      position: relative;
+    }
+    .meta b { color: #00ADD8; font-weight: 700; }
+    .url {
+      position: absolute; bottom: 44px; right: 56px;
+      font-size: 18px; color: #6B6660; font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="og">
+    <div class="accent-bar"></div>
+    <h1 class="brand">
+      <span class="gopher">⬡</span>
+      <span>Go<span class="heart">♥</span>Love</span>
+    </h1>
+    <p class="tagline">
+      Go'yu kart kart öğren.
+      <span class="en">Learn Go, one card at a time.</span>
+    </p>
+    <p class="meta"><b>14 bölüm</b> · ~150 kart · TR/EN</p>
+    <div class="url">golove.tayfunyirdem.workers.dev</div>
+  </div>
+</body>
+</html>
