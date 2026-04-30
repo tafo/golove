@@ -74,6 +74,10 @@
         <span class="lang-tr">GoLove · açık kaynak öğrenme kaynağı · MIT lisansı</span>
         <span class="lang-en">GoLove · open-source learning resource · MIT license</span>
       </p>
+      <button type="button" id="resetProgress" class="reset-progress" hidden>
+        <span class="lang-tr">İlerlemeyi sıfırla</span>
+        <span class="lang-en">Reset progress</span>
+      </button>
     </footer>
 
   </main>
@@ -84,14 +88,21 @@
     (function () {
       const grid = document.getElementById('chapterGrid');
       if (!grid || !window.GoLove) return;
-      const { CHAPTERS, AVAILABLE } = window.GoLove;
+      const { CHAPTERS, AVAILABLE, getCompleted } = window.GoLove;
+      const completed = getCompleted();
       grid.innerHTML = CHAPTERS.map((ch, i) => {
         const num = String(i + 1).padStart(2, '0');
         const available = AVAILABLE.has(ch.slug);
+        const done = completed.has(ch.slug);
         const tag = available ? 'a' : 'div';
         const href = available ? ` href="${ch.slug}.html"` : '';
+        const classes = ['chapter-tile'];
+        if (!available) classes.push('coming');
+        if (done) classes.push('completed');
+        const check = done ? `<span class="check" aria-label="okundu">✓</span>` : '';
         return `
-          <${tag} class="chapter-tile${available ? '' : ' coming'}"${href}>
+          <${tag} class="${classes.join(' ')}"${href}>
+            ${check}
             <span class="ch-num">${num}</span>
             <span class="ch-title">
               <span class="lang-tr">${ch.tr}</span>
@@ -100,6 +111,20 @@
           </${tag}>
         `;
       }).join('');
+
+      const resetBtn = document.getElementById('resetProgress');
+      if (resetBtn && completed.size > 0) {
+        resetBtn.hidden = false;
+        resetBtn.addEventListener('click', () => {
+          const msg = document.documentElement.lang === 'en'
+            ? 'Reset all read marks?'
+            : 'Tüm okundu işaretleri silinsin mi?';
+          if (confirm(msg)) {
+            localStorage.removeItem('golove-progress');
+            location.reload();
+          }
+        });
+      }
     })();
   </script>
 </body>

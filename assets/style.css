@@ -154,26 +154,8 @@ html[lang="tr"] .lang-en, html[lang="en"] .lang-tr { display: none !important; }
   mix-blend-mode: multiply;
 }
 
-/* Banner card (intro / chapter nav) */
+/* Banner card (chapter nav) */
 .banner { text-align: center; gap: 18px; }
-.banner h1 {
-  font-weight: 700; font-size: 26px; line-height: 1.2;
-  margin: 0; color: var(--ink);
-}
-.banner h1 .gopher { color: var(--cyan); font-size: 26px; margin-right: 6px; }
-.banner .sub {
-  font-weight: 500; font-size: 14px; color: var(--ink-soft);
-  display: block; margin-top: 16px; line-height: 1.6;
-}
-.banner .keys {
-  font-size: 13px; color: var(--pencil);
-  margin-top: 24px; line-height: 1.9;
-}
-.banner .keys kbd {
-  font-size: 11px; font-weight: 500;
-  background: var(--paper-edge); border: 1px solid var(--pencil);
-  border-radius: 4px; padding: 2px 7px; margin: 0 2px;
-}
 
 /* Card number badge */
 .num-badge {
@@ -482,6 +464,17 @@ code.inl {
 }
 html[lang="en"] .chapter-tile.coming::after { content: "soon"; }
 
+.chapter-tile.completed { border-color: var(--green); }
+.chapter-tile.completed:hover { border-color: var(--green); }
+.chapter-tile .check {
+  position: absolute; top: 10px; right: 12px;
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--green); color: var(--paper);
+  border-radius: 50%;
+  font-size: 12px; font-weight: 800; line-height: 1;
+}
+
 .landing-footer {
   text-align: center; margin-top: 48px;
   font-size: 12.5px; color: var(--paper-edge);
@@ -491,6 +484,17 @@ html[lang="en"] .chapter-tile.coming::after { content: "soon"; }
   color: var(--cyan-soft); text-decoration: none;
   border-bottom: 1px dashed var(--cyan-soft);
 }
+.reset-progress {
+  margin-top: 10px;
+  background: transparent; border: 0;
+  color: inherit; opacity: 0.85;
+  font: inherit; font-size: 11.5px;
+  letter-spacing: 0.3px;
+  cursor: pointer; padding: 4px 8px;
+  border-bottom: 1px dashed var(--paper-edge);
+  border-radius: 0;
+}
+.reset-progress:hover { opacity: 1; color: var(--paper); }
 
 /* ========================================================================
    Responsive — short screens (landscape laptops, etc)
@@ -502,14 +506,6 @@ html[lang="en"] .chapter-tile.coming::after { content: "soon"; }
   .hook { font-size: 24px; } .hook .emoji { font-size: 24px; }
   .punch { font-size: 17px; }
   .num-badge { width: 44px; height: 44px; font-size: 16px; top: -12px; }
-}
-
-/* ========================================================================
-   Touch devices — hide keyboard hints
-   ======================================================================== */
-
-@media (hover: none) and (pointer: coarse) {
-  .banner .keys { display: none; }
 }
 
 /* ========================================================================
@@ -550,12 +546,6 @@ html[lang="en"] .chapter-tile.coming::after { content: "soon"; }
     font-size: 14px;
   }
   .num-badge .of { font-size: 9px; }
-
-  /* Banner */
-  .banner h1 { font-size: 22px; line-height: 1.25; }
-  .banner h1 .gopher { font-size: 22px; margin-right: 4px; }
-  .banner .sub { font-size: 13px; margin-top: 12px; }
-  .banner .keys { font-size: 12px; margin-top: 18px; line-height: 1.8; }
 
   /* Hook */
   .hook {

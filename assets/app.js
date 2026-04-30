@@ -27,8 +27,23 @@
   ];
   const AVAILABLE = new Set(['01-first-steps', '02-types', '03-functions', '04-slice', '05-maps', '06-structs', '07-pointers', '08-interfaces', '09-errors', '10-testing', '11-goroutines', '12-channels', '13-mutex', '14-http']);
 
+  // ----------------------------------------------------------------------
+  // Progress tracking (localStorage) — set of chapter slugs reaching last card
+  // ----------------------------------------------------------------------
+  const PROGRESS_KEY = 'golove-progress';
+  function getCompleted() {
+    try { return new Set(JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]')); }
+    catch (e) { return new Set(); }
+  }
+  function markCompleted(slug) {
+    const set = getCompleted();
+    if (set.has(slug)) return;
+    set.add(slug);
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify([...set]));
+  }
+
   // Expose for landing page rendering
-  window.GoLove = { CHAPTERS, AVAILABLE };
+  window.GoLove = { CHAPTERS, AVAILABLE, getCompleted };
 
   // ----------------------------------------------------------------------
   // Language toggle (works on every page)
@@ -172,6 +187,8 @@
             if (history.replaceState) {
               history.replaceState(null, '', '#c' + idx);
             }
+            // Last content card = cards.length - 2 (last is injected chapter-nav)
+            if (idx >= cards.length - 2) markCompleted(chapterSlug);
           }
         }
       });
