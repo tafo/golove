@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 05 · Map</title>
+  <meta name="description" content="Go'da map — anahtar/değer eşlemesi — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="05-maps">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 05 · Map</span>
+        <span class="lang-en">GoLove · 05 · Maps</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~2 dakika · anahtar/değer eşlemesi</span>
+        <span class="lang-en">11 cards · ~2 minutes · key/value lookups</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 — Motivation -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🗺️</span>
+        <span class="lang-tr">Niye map?</span>
+        <span class="lang-en">Why a map?</span>
+      </h2>
+      <div class="stage">
+        <div style="text-align:center;">
+          <div class="items">
+            <span>🔑</span><span style="font-size:30px;color:var(--pencil)">→</span><span>📦</span>
+          </div>
+          <p style="font-size:13.5px;color:var(--pencil);margin-top:18px;font-weight:500;line-height:1.6;">
+            <span class="lang-tr">"İstanbul" → 16.000.000<br/>"Ada" → 12 yaşında</span>
+            <span class="lang-en">"Istanbul" → 16,000,000<br/>"Ada" → age 12</span>
+          </p>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Anahtar verirsin, değer alırsın.</span>
+        <span class="lang-en">Give a key, get a value.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Slice index'le bulur (0, 1, 2…). Map istediğin anahtarla bulur (string, int, vb). Telefon rehberi gibi.</span>
+        <span class="lang-en">Slices use indexes (0, 1, 2…). Maps use any key (string, int, etc). Like a phone book.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Nasıl yaratırız?</span>
+        <span class="lang-en">How do we create one?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 — Create -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🔑</span>
+        <span class="lang-tr">Map yarat</span>
+        <span class="lang-en">Create a map</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// 1. Doğrudan değerlerle</span>
+yaslar := <span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>{
+    <span class="str">"Ada"</span>:    <span class="num">12</span>,
+    <span class="str">"Mehmet"</span>: <span class="num">25</span>,
+}
+
+<span class="com">// 2. Boş başlat</span>
+nufus := <span class="fn">make</span>(<span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>)</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">map[anahtarTipi]değerTipi</code> — iki yoldan biri.</span>
+        <span class="lang-en"><code class="inl">map[keyType]valueType</code> — pick one of two ways.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Literal yazım hazır verilerle başlar. <code class="inl">make</code> boş bir map verir, sonradan doldurursun.</span>
+        <span class="lang-en">Literal form starts with values. <code class="inl">make</code> gives an empty map you fill later.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Değer almak?</span>
+        <span class="lang-en">Reading a value?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 — Read -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">📖</span>
+        <span class="lang-tr">Değer oku</span>
+        <span class="lang-en">Read a value</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yaslar := <span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>{
+    <span class="str">"Ada"</span>: <span class="num">12</span>,
+}
+
+yas := yaslar[<span class="str">"Ada"</span>]      <span class="com">// 12</span>
+yok := yaslar[<span class="str">"Zeynep"</span>]   <span class="com">// 0  (sıfır değer!)</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Anahtar yoksa <b>sıfır değer</b> döner — hata değil.</span>
+        <span class="lang-en">Missing key returns the <b>zero value</b> — not an error.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Bu Go'nun klasik tuzağı. <code class="inl">yaslar["Zeynep"]</code> → 0 sana "var ve 0" mı diyor, "yok" mu diyor? Sonraki kart açıklıyor.</span>
+        <span class="lang-en">A classic Go trap. Does <code class="inl">yaslar["Zeynep"]</code> → 0 mean "exists but 0" or "missing"? Next card clarifies.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Var mı yok mu?</span>
+        <span class="lang-en">Is it there or not?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 — Comma ok -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">🔍</span>
+        <span class="lang-tr">Var mı? — comma ok</span>
+        <span class="lang-en">Is it there? — comma ok</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yas, varMi := yaslar[<span class="str">"Ada"</span>]
+<span class="kw">if</span> varMi {
+    fmt.<span class="fn">Println</span>(yas)        <span class="com">// 12</span>
+} <span class="kw">else</span> {
+    fmt.<span class="fn">Println</span>(<span class="str">"yok"</span>)
+}</pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">İkinci dönüş — <code class="inl">bool</code> — "anahtar var mıydı?" sorusunu cevaplar.</span>
+        <span class="lang-en">Second return — a <code class="inl">bool</code> — answers "did the key exist?".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Buna "comma ok" deyimi denir. Çoğu zaman <code class="inl">value, ok :=</code> şeklinde yazılır. Map'lere has bir kalıp.</span>
+        <span class="lang-en">This is called the "comma ok" idiom. Usually written <code class="inl">value, ok :=</code>. A pattern unique to maps.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Yeni bir eşleme eklemek?</span>
+        <span class="lang-en">Adding a new entry?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 — Write -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">✏️</span>
+        <span class="lang-tr">Yaz veya güncelle</span>
+        <span class="lang-en">Write or update</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yaslar[<span class="str">"Zeynep"</span>] = <span class="num">30</span>     <span class="com">// yeni eklendi</span>
+yaslar[<span class="str">"Ada"</span>] = <span class="num">13</span>        <span class="com">// güncellendi</span>
+
+<span class="com">// Aynı operatör. Yeni mi eski mi map otomatik anlar.</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">Yazmak ve güncellemek aynı operatör: <code class="inl">m[key] = val</code>.</span>
+        <span class="lang-en">Writing and updating use the same operator: <code class="inl">m[key] = val</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Anahtar zaten varsa değer değişir. Yoksa yeni eşleme eklenir. Tek satır iki iş.</span>
+        <span class="lang-en">If the key exists, the value is replaced. Otherwise a new entry is added. One line, two jobs.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Silmek?</span>
+        <span class="lang-en">Removing?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 — Delete -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">🗑️</span>
+        <span class="lang-tr">delete — anahtarı kaldır</span>
+        <span class="lang-en">delete — remove a key</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="fn">delete</span>(yaslar, <span class="str">"Ada"</span>)
+
+<span class="com">// "Ada" artık yok</span>
+<span class="com">// var olmayan anahtarı silmek hata vermez</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr"><code class="inl">delete(map, anahtar)</code> — basit ve sessiz.</span>
+        <span class="lang-en"><code class="inl">delete(map, key)</code> — simple and quiet.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Olmayan bir anahtarı silmeye çalışsan da hata vermez. Kontrol etmen gerekmez.</span>
+        <span class="lang-en">Deleting a missing key is a no-op — no error. You don't need to check first.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Hepsini gezmek?</span>
+        <span class="lang-en">Iterating all?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 — for range -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🔁</span>
+        <span class="lang-tr">for range ile gez</span>
+        <span class="lang-en">Iterate with for range</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">for</span> isim, yas := <span class="kw">range</span> yaslar {
+    fmt.<span class="fn">Printf</span>(<span class="str">"%s: %d\n"</span>, isim, yas)
+}
+
+<span class="com">// Sadece anahtarlar:</span>
+<span class="kw">for</span> isim := <span class="kw">range</span> yaslar { ... }
+
+<span class="com">// Sadece değerler:</span>
+<span class="kw">for</span> _, yas := <span class="kw">range</span> yaslar { ... }</pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr"><code class="inl">for k, v := range m</code> — iki şey birden alır.</span>
+        <span class="lang-en"><code class="inl">for k, v := range m</code> — gives you both.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Tek değer istiyorsan ikinciyi <code class="inl">_</code> ile boşa at. Map'te 2 dönüş, slice'ta da öyle.</span>
+        <span class="lang-en">Want just one? Discard the other with <code class="inl">_</code>. Same for slices.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Sıralı mı geliyor?</span>
+        <span class="lang-en">In order?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 — Random order -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🎲</span>
+        <span class="lang-tr">Sıra rastgele</span>
+        <span class="lang-en">Order is random</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Aynı kodu 2 kez çalıştır:</span>
+
+<span class="com">// 1. çalışma:  Ada, Mehmet, Zeynep</span>
+<span class="com">// 2. çalışma:  Mehmet, Zeynep, Ada</span>
+<span class="com">// 3. çalışma:  Zeynep, Ada, Mehmet</span>
+
+<span class="com">// 😱 Her seferinde farklı!</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Map'in <b>sırası yok</b>. Her gezişte farklı sırayla gelir.</span>
+        <span class="lang-en">Maps have <b>no order</b>. Iteration order changes every time.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Sıralı çıktı istiyorsan: anahtarları slice'a topla, <code class="inl">slices.Sort</code> ile sırala, sonra map'e bak.</span>
+        <span class="lang-en">Want sorted output? Collect keys into a slice, <code class="inl">slices.Sort</code> them, then read from the map.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Bir tehlike daha…</span>
+        <span class="lang-en">One more danger…</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 — nil map -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">⚠️</span>
+        <span class="lang-tr">nil map'e yazma</span>
+        <span class="lang-en">Don't write to a nil map</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> m <span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>     <span class="com">// nil — değer yok</span>
+
+m[<span class="str">"Ada"</span>] = <span class="num">12</span>
+<span class="com">// 💥 panic: assignment to entry in nil map</span>
+
+<span class="com">// Doğru başlatma:</span>
+m = <span class="fn">make</span>(<span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>)
+m[<span class="str">"Ada"</span>] = <span class="num">12</span>     <span class="com">// ✓</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Sadece <code class="inl">var m map[...]</code> tanımladıysan map <b>nil</b>'dir. Yazamazsın.</span>
+        <span class="lang-en">If you only write <code class="inl">var m map[...]</code> the map is <b>nil</b>. You can't write to it.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Okumak güvenli (sıfır değer döner). Yazmak panic. <code class="inl">make</code> veya literal ile başlat.</span>
+        <span class="lang-en">Reading is safe (zero value returns). Writing panics. Initialize with <code class="inl">make</code> or a literal.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Boyut?</span>
+        <span class="lang-en">Size?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 — len -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">📊</span>
+        <span class="lang-tr">len — kaç eşleme var</span>
+        <span class="lang-en">len — how many entries</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yaslar := <span class="kw">map</span>[<span class="typ">string</span>]<span class="typ">int</span>{
+    <span class="str">"Ada"</span>: <span class="num">12</span>,
+    <span class="str">"Mehmet"</span>: <span class="num">25</span>,
+}
+
+<span class="fn">len</span>(yaslar)   <span class="com">// 2</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr"><code class="inl">len(m)</code> — eşleme sayısı.</span>
+        <span class="lang-en"><code class="inl">len(m)</code> — number of entries.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Aynı <code class="inl">len</code>, slice'larda da çalışıyordu. Go'nun ortak fonksiyonları azdır — bir kez öğren, her yerde kullan.</span>
+        <span class="lang-en">Same <code class="inl">len</code> works on slices too. Go's built-ins are few — learn once, use everywhere.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 — Summary -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">map = anahtar → değer</p>
+        <p class="big purple lang-en">map = key → value</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Yarat → yaz/oku → var mı sor → sil → gez.</span>
+        <span class="lang-en">Create → write/read → check → delete → iterate.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>🔑 yarat:</b> <code class="inl">make(map[K]V)</code> veya literal<br/>
+          <b>📖 oku:</b> <code class="inl">v := m[k]</code> · yoksa sıfır değer<br/>
+          <b>🔍 var mı:</b> <code class="inl">v, ok := m[k]</code><br/>
+          <b>✏️ yaz:</b> <code class="inl">m[k] = v</code><br/>
+          <b>🗑️ sil:</b> <code class="inl">delete(m, k)</code><br/>
+          <b>🔁 gez:</b> <code class="inl">for k, v := range m</code> (sıra rastgele)<br/>
+          <b>⚠️ tuzak:</b> nil map'e yazılmaz
+        </span>
+        <span class="lang-en">
+          <b>🔑 create:</b> <code class="inl">make(map[K]V)</code> or literal<br/>
+          <b>📖 read:</b> <code class="inl">v := m[k]</code> · zero value if missing<br/>
+          <b>🔍 exists:</b> <code class="inl">v, ok := m[k]</code><br/>
+          <b>✏️ write:</b> <code class="inl">m[k] = v</code><br/>
+          <b>🗑️ delete:</b> <code class="inl">delete(m, k)</code><br/>
+          <b>🔁 iterate:</b> <code class="inl">for k, v := range m</code> (random order)<br/>
+          <b>⚠️ trap:</b> can't write to nil map
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

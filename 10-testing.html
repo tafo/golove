@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 10 · Test Yazmak</title>
+  <meta name="description" content="Go'da test yazma — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="10-testing">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 10 · Test Yazmak</span>
+        <span class="lang-en">GoLove · 10 · Testing</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~3 dakika · stdlib ile test, kütüphane yok</span>
+        <span class="lang-en">11 cards · ~3 minutes · testing with stdlib, no libs needed</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🧪</span>
+        <span class="lang-tr">Niye test?</span>
+        <span class="lang-en">Why test?</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Manuel test: her seferinde elle dene.</span>
+<span class="com">// Otomatik test: bir kez yaz, milyon kez koştur.</span>
+<span class="com">//</span>
+<span class="com">// Hangi kodun bozuk olduğunu bilmek</span>
+<span class="com">// hangi kodun bozuk olduğunu sanmaktan iyidir.</span></pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Test = "kod hâlâ söz verdiği şeyi yapıyor mu?" sorusu.</span>
+        <span class="lang-en">Tests = "is the code still doing what it promised?".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go'nun stdlib'i test çalıştırır. Üçüncü parti kütüphane yok, framework yok, kurulum yok.</span>
+        <span class="lang-en">Go's stdlib runs tests. No third-party library, no framework, no setup.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Test dosyası nasıl?</span>
+        <span class="lang-en">What does a test file look like?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📁</span>
+        <span class="lang-tr">_test.go ile bitir</span>
+        <span class="lang-en">End the file with _test.go</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">math.go         <span class="com">// asıl kod</span>
+math_test.go    <span class="com">// testler</span>
+
+<span class="com">// Aynı paket. Aynı klasör. Yan yana.</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Test dosyalarının adı <code class="inl">_test.go</code> ile biter.</span>
+        <span class="lang-en">Test files end with <code class="inl">_test.go</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go derleyicisi <code class="inl">_test.go</code> dosyalarını binary'ye dahil etmez. Sadece <code class="inl">go test</code> çalıştığında derlenir.</span>
+        <span class="lang-en">Go's compiler skips <code class="inl">_test.go</code> in builds. They're only compiled when you run <code class="inl">go test</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Test fonksiyonunun şekli?</span>
+        <span class="lang-en">The shape of a test function?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🧩</span>
+        <span class="lang-tr">İlk test fonksiyonu</span>
+        <span class="lang-en">First test function</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">package</span> math
+
+<span class="kw">import</span> <span class="str">"testing"</span>
+
+<span class="kw">func</span> <span class="fn">TestTopla</span>(t *testing.<span class="typ">T</span>) {
+    sonuc := <span class="fn">Topla</span>(<span class="num">2</span>, <span class="num">3</span>)
+    <span class="kw">if</span> sonuc != <span class="num">5</span> {
+        t.<span class="fn">Errorf</span>(<span class="str">"2+3 = %d, beklenen 5"</span>, sonuc)
+    }
+}</pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr"><code class="inl">func TestX(t *testing.T)</code> — sabit bir kalıp.</span>
+        <span class="lang-en"><code class="inl">func TestX(t *testing.T)</code> — fixed pattern.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">İsim mutlaka <code class="inl">Test</code> ile başlamalı (büyük T). Tek argüman: <code class="inl">*testing.T</code>. Dönüş yok.</span>
+        <span class="lang-en">Name must start with <code class="inl">Test</code> (capital T). One arg: <code class="inl">*testing.T</code>. No return.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Hata bildirmek?</span>
+        <span class="lang-en">Reporting failure?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">📛</span>
+        <span class="lang-tr">t.Errorf vs t.Fatalf</span>
+        <span class="lang-en">t.Errorf vs t.Fatalf</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">t.<span class="fn">Errorf</span>(<span class="str">"yanlış: %d"</span>, x)   <span class="com">// hata yaz, devam et</span>
+t.<span class="fn">Fatalf</span>(<span class="str">"yanlış: %d"</span>, x)   <span class="com">// hata yaz, dur</span>
+
+t.<span class="fn">Helper</span>()                  <span class="com">// "ben yardımcıyım, beni atla"</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr"><code class="inl">Errorf</code> = "fail ama devam". <code class="inl">Fatalf</code> = "fail ve dur".</span>
+        <span class="lang-en"><code class="inl">Errorf</code> = "fail but continue". <code class="inl">Fatalf</code> = "fail and stop".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Devam edersen birden fazla hatayı tek koşuda görebilirsin. Bir adım sonraki kontrolün anlamsız olduğu durumlarda <code class="inl">Fatalf</code>.</span>
+        <span class="lang-en">Continuing lets you see many failures in one run. Use <code class="inl">Fatalf</code> when subsequent checks are meaningless.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Çalıştırmak?</span>
+        <span class="lang-en">Running them?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">▶️</span>
+        <span class="lang-tr">go test komutları</span>
+        <span class="lang-en">go test commands</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">$ go test                  <span class="com"># bu paketteki tüm testler</span>
+$ go test ./...            <span class="com"># tüm modüldeki tüm testler</span>
+$ go test -v               <span class="com"># detaylı çıktı</span>
+$ go test -run TestTopla   <span class="com"># sadece adı eşleşen</span>
+$ go test -count=1         <span class="com"># cache'i kullanma</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Tek komut, çok seçenek. <code class="inl">go test ./...</code> en sık.</span>
+        <span class="lang-en">One command, many flags. <code class="inl">go test ./...</code> is the everyday one.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go test sonuçlarını cache'ler — hiçbir şey değişmediyse tekrar çalıştırmaz. <code class="inl">-count=1</code> bunu kapatır.</span>
+        <span class="lang-en">Go caches test results — won't re-run if nothing changed. <code class="inl">-count=1</code> bypasses the cache.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Aynı testin alt vakaları?</span>
+        <span class="lang-en">Sub-cases of one test?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">🌳</span>
+        <span class="lang-tr">t.Run — alt testler</span>
+        <span class="lang-en">t.Run — sub-tests</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">TestTopla</span>(t *testing.<span class="typ">T</span>) {
+    t.<span class="fn">Run</span>(<span class="str">"pozitifler"</span>, <span class="kw">func</span>(t *testing.<span class="typ">T</span>) {
+        <span class="kw">if</span> <span class="fn">Topla</span>(<span class="num">2</span>, <span class="num">3</span>) != <span class="num">5</span> { t.<span class="fn">Fail</span>() }
+    })
+    t.<span class="fn">Run</span>(<span class="str">"sıfırlar"</span>, <span class="kw">func</span>(t *testing.<span class="typ">T</span>) {
+        <span class="kw">if</span> <span class="fn">Topla</span>(<span class="num">0</span>, <span class="num">0</span>) != <span class="num">0</span> { t.<span class="fn">Fail</span>() }
+    })
+}</pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr">İlişkili kontrolleri tek test fonksiyonu altında grupla.</span>
+        <span class="lang-en">Group related checks under one test function.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Alt testleri ayrı ayrı çalıştırabilirsin: <code class="inl">go test -run TestTopla/pozitifler</code>.</span>
+        <span class="lang-en">Run sub-tests individually: <code class="inl">go test -run TestTopla/pozitifler</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Aynı testi farklı verilerle?</span>
+        <span class="lang-en">Same test, many inputs?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">📋</span>
+        <span class="lang-tr">Tablo testleri</span>
+        <span class="lang-en">Table-driven tests</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">vakalar := []<span class="kw">struct</span> {
+    ad   <span class="typ">string</span>
+    a, b <span class="typ">int</span>
+    sonuc <span class="typ">int</span>
+}{
+    {<span class="str">"pozitif"</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">5</span>},
+    {<span class="str">"sıfır"</span>,   <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>},
+    {<span class="str">"negatif"</span>, -<span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>},
+}
+
+<span class="kw">for</span> _, v := <span class="kw">range</span> vakalar {
+    t.<span class="fn">Run</span>(v.ad, <span class="kw">func</span>(t *testing.<span class="typ">T</span>) {
+        <span class="kw">if</span> <span class="fn">Topla</span>(v.a, v.b) != v.sonuc { t.<span class="fn">Fail</span>() }
+    })
+}</pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Vakalar bir slice'ta. Tek döngü, çok test. Go'nun favori kalıbı.</span>
+        <span class="lang-en">Cases in a slice. One loop, many tests. Go's favourite pattern.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Yeni vaka eklemek = bir satır slice'a ekle. Test eklemek bu kadar ucuzsa daha çok yazarsın.</span>
+        <span class="lang-en">Adding a new case = one line in the slice. When tests are this cheap, you write more.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Test örnekleri belge olarak?</span>
+        <span class="lang-en">Tests as documentation?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">📖</span>
+        <span class="lang-tr">Example — çalışan örnek</span>
+        <span class="lang-en">Example — runnable example</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">ExampleTopla</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">Topla</span>(<span class="num">2</span>, <span class="num">3</span>))
+    <span class="com">// Output: 5</span>
+}</pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Hem dokümantasyon, hem test.</span>
+        <span class="lang-en">Documentation and test in one.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">go doc</code> bunu kullanım örneği olarak gösterir, <code class="inl">go test</code> da çalıştırıp <code class="inl">// Output:</code> ile karşılaştırır.</span>
+        <span class="lang-en"><code class="inl">go doc</code> shows it as a usage example, and <code class="inl">go test</code> runs it and compares to <code class="inl">// Output:</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Hangi satırlar test edildi?</span>
+        <span class="lang-en">Which lines got tested?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📊</span>
+        <span class="lang-tr">Code coverage</span>
+        <span class="lang-en">Code coverage</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">$ go test -cover
+PASS
+coverage: 87.5% of statements
+
+$ go test -coverprofile=cov.out
+$ go tool cover -html=cov.out
+<span class="com"># tarayıcıda hangi satır test edildi/edilmedi gör</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">-cover</code> hangi satırların test edildiğini ölçer.</span>
+        <span class="lang-en"><code class="inl">-cover</code> measures which lines got hit by tests.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">%100 hedef değil — anlamlı testler yaz. Ama coverage düştüğünde "buraya kim baktı?" sormak değerli.</span>
+        <span class="lang-en">100% isn't the goal — write meaningful tests. But a drop in coverage is a useful "who looked here?" prompt.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Hızı ölçmek?</span>
+        <span class="lang-en">Measuring speed?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">⏱️</span>
+        <span class="lang-tr">Benchmark</span>
+        <span class="lang-en">Benchmark</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">BenchmarkTopla</span>(b *testing.<span class="typ">B</span>) {
+    <span class="kw">for</span> i := <span class="num">0</span>; i &lt; b.N; i++ {
+        <span class="fn">Topla</span>(<span class="num">2</span>, <span class="num">3</span>)
+    }
+}
+
+<span class="com">// $ go test -bench=.</span>
+<span class="com">// BenchmarkTopla-8  1000000000  0.5 ns/op</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">Benchmark = "bu kod ne kadar hızlı?" testi.</span>
+        <span class="lang-en">Benchmark = "how fast is this?" test.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">b.N</code> Go tarafından ayarlanır — yeterince istikrarlı bir ölçüm için döngü tekrarı.</span>
+        <span class="lang-en">Go sets <code class="inl">b.N</code> — the loop count is chosen to give a stable measurement.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">_test.go · TestX · go test</p>
+        <p class="big purple lang-en">_test.go · TestX · go test</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Yan dosyaya yaz, doğru imzayla başla, <code class="inl">go test</code> ile koş.</span>
+        <span class="lang-en">Write next to the code, use the right signature, run with <code class="inl">go test</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>📁 dosya:</b> <code class="inl">x_test.go</code><br/>
+          <b>🧩 imza:</b> <code class="inl">func TestX(t *testing.T)</code><br/>
+          <b>📛 başarısız:</b> <code class="inl">t.Errorf</code> · <code class="inl">t.Fatalf</code><br/>
+          <b>▶️ koş:</b> <code class="inl">go test ./...</code><br/>
+          <b>🌳 alt test:</b> <code class="inl">t.Run("ad", func(t *T){})</code><br/>
+          <b>📋 tablo:</b> slice + döngü + <code class="inl">t.Run</code><br/>
+          <b>📊 ölç:</b> <code class="inl">-cover</code> · <code class="inl">-bench=.</code>
+        </span>
+        <span class="lang-en">
+          <b>📁 file:</b> <code class="inl">x_test.go</code><br/>
+          <b>🧩 signature:</b> <code class="inl">func TestX(t *testing.T)</code><br/>
+          <b>📛 fail:</b> <code class="inl">t.Errorf</code> · <code class="inl">t.Fatalf</code><br/>
+          <b>▶️ run:</b> <code class="inl">go test ./...</code><br/>
+          <b>🌳 sub-test:</b> <code class="inl">t.Run("name", func(t *T){})</code><br/>
+          <b>📋 table:</b> slice + loop + <code class="inl">t.Run</code><br/>
+          <b>📊 measure:</b> <code class="inl">-cover</code> · <code class="inl">-bench=.</code>
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

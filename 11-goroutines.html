@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 11 · Goroutine</title>
+  <meta name="description" content="Go'da goroutine — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="11-goroutines">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 11 · Goroutine</span>
+        <span class="lang-en">GoLove · 11 · Goroutines</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">10 kart · ~3 dakika · birden fazla işi aynı anda</span>
+        <span class="lang-en">10 cards · ~3 minutes · doing many things at once</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/10</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🏃</span>
+        <span class="lang-tr">Niye eşzamanlılık?</span>
+        <span class="lang-en">Why concurrency?</span>
+      </h2>
+      <div class="stage">
+        <div style="text-align:center;">
+          <div class="items">
+            <span>📥</span><span>📥</span><span>📥</span><span>📥</span>
+          </div>
+          <p style="font-size:13.5px;color:var(--pencil);margin-top:18px;font-weight:500;line-height:1.6;">
+            <span class="lang-tr">100 dosya indirmek: tek tek = uzun · paralel = kısa</span>
+            <span class="lang-en">downloading 100 files: one at a time = slow · parallel = fast</span>
+          </p>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Beklemekten zaman kazanmak için iki işi <i>aynı anda</i> başlat.</span>
+        <span class="lang-en">Start two jobs <i>at the same time</i> to save waiting.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Network'ten dönüş, dosya okuma, paralel hesaplama — Go bu işler için kuruldu.</span>
+        <span class="lang-en">Network calls, file reads, parallel computation — Go was built for this.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Nasıl başlatırız?</span>
+        <span class="lang-en">How to start one?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/10</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🚀</span>
+        <span class="lang-tr">go keyword'u</span>
+        <span class="lang-en">The go keyword</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">go</span> <span class="fn">selamla</span>(<span class="str">"Ada"</span>)
+<span class="kw">go</span> <span class="fn">selamla</span>(<span class="str">"Mehmet"</span>)
+
+<span class="com">// İki function aynı anda çalışmaya başlar.</span>
+<span class="com">// Hangisi önce biter? Belli değil.</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Bir çağrının önüne <code class="inl">go</code> yaz — hafif bir thread'de çalışsın.</span>
+        <span class="lang-en">Put <code class="inl">go</code> in front of a call — it runs in a lightweight thread.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Buna <b>goroutine</b> denir. Tek anahtar kelime, tek satır. Eşzamanlılığı bu kadar kolay yapan az dil var.</span>
+        <span class="lang-en">It's called a <b>goroutine</b>. One keyword, one line. Few languages make concurrency this cheap.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">main biterse?</span>
+        <span class="lang-en">What if main finishes?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/10</span></span>
+      <h2 class="hook red">
+        <span class="emoji">💀</span>
+        <span class="lang-tr">main biterse hepsi biter</span>
+        <span class="lang-en">When main exits, all die</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">main</span>() {
+    <span class="kw">go</span> fmt.<span class="fn">Println</span>(<span class="str">"merhaba"</span>)
+    <span class="com">// main hemen biter</span>
+    <span class="com">// goroutine "merhaba" yazma şansı bulamayabilir</span>
+}</pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr"><code class="inl">main</code> goroutine bittiğinde program kapanır — diğerleri yarım kalır.</span>
+        <span class="lang-en">When the <code class="inl">main</code> goroutine ends, the program exits — others get cut off.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Yeni başlayanların 1. tuzağı. "Bekle" demek için <code class="inl">sync.WaitGroup</code> ya da channel kullanırsın.</span>
+        <span class="lang-en">Beginner trap #1. To "wait", use <code class="inl">sync.WaitGroup</code> or a channel.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Hepsi bitsin diye beklemek?</span>
+        <span class="lang-en">Waiting for them all?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/10</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🔢</span>
+        <span class="lang-tr">sync.WaitGroup</span>
+        <span class="lang-en">sync.WaitGroup</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> wg sync.<span class="typ">WaitGroup</span>
+
+<span class="kw">for</span> _, ad := <span class="kw">range</span> []<span class="typ">string</span>{<span class="str">"Ada"</span>, <span class="str">"Mehmet"</span>} {
+    wg.<span class="fn">Add</span>(<span class="num">1</span>)
+    <span class="kw">go</span> <span class="kw">func</span>() {
+        <span class="kw">defer</span> wg.<span class="fn">Done</span>()
+        <span class="fn">selamla</span>(ad)
+    }()
+}
+
+wg.<span class="fn">Wait</span>()    <span class="com">// hepsi bitene kadar bekle</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Sayaç gibi: <b>Add</b> arttırır, <b>Done</b> azaltır, <b>Wait</b> sıfır olana kadar bekler.</span>
+        <span class="lang-en">Like a counter: <b>Add</b> increases, <b>Done</b> decreases, <b>Wait</b> blocks until zero.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Klasik kalıp: <code class="inl">go</code>'dan önce <code class="inl">Add(1)</code>, içeride <code class="inl">defer wg.Done()</code>.</span>
+        <span class="lang-en">Classic pattern: <code class="inl">Add(1)</code> before <code class="inl">go</code>, <code class="inl">defer wg.Done()</code> inside.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Goroutine ne kadar pahalı?</span>
+        <span class="lang-en">How expensive are they?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/10</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">🪶</span>
+        <span class="lang-tr">Goroutine ucuzdur</span>
+        <span class="lang-en">Goroutines are cheap</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// 10 binlerce, hatta milyon goroutine sorun değil.</span>
+<span class="com">//</span>
+<span class="com">// Bir thread:    ~1 MB bellek, OS yönetimi</span>
+<span class="com">// Bir goroutine: ~2 KB başlangıç, Go runtime yönetimi</span>
+<span class="com">//</span>
+<span class="com">// Yani: 1 thread = ~500 goroutine</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Thread değil. <i>Çok daha hafif</i>. Korkmadan çoğalt.</span>
+        <span class="lang-en">Not threads. <i>Much lighter</i>. Spawn freely.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go runtime'ı goroutine'leri thread'lere dağıtır. Sen sadece "iş başlasın" dersin, gerisi otomatik.</span>
+        <span class="lang-en">Go's runtime maps goroutines onto OS threads. You just say "start it" — Go handles the rest.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Aynı veriye iki goroutine?</span>
+        <span class="lang-en">Two goroutines, same data?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/10</span></span>
+      <h2 class="hook red">
+        <span class="emoji">⚠️</span>
+        <span class="lang-tr">Race condition</span>
+        <span class="lang-en">Race condition</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">sayac := <span class="num">0</span>
+
+<span class="kw">for</span> i := <span class="num">0</span>; i &lt; <span class="num">1000</span>; i++ {
+    <span class="kw">go</span> <span class="kw">func</span>() { sayac++ }()
+}
+
+<span class="com">// "1000" beklersin, ama 873, 921, 998... rastgele</span>
+<span class="com">// 💥 İki goroutine aynı anda yazıyor — bozulur</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">İki goroutine'ı aynı veriye yaz/oku korumasız bırakma.</span>
+        <span class="lang-en">Don't let two goroutines read/write the same data unprotected.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Çözüm: <b>channel</b> (Bölüm 12) ya da <b>mutex</b> (Bölüm 13). Go felsefesi: "veri paylaşma, mesaj yolla".</span>
+        <span class="lang-en">Solution: <b>channel</b> (Ch. 12) or <b>mutex</b> (Ch. 13). Go's motto: "Don't share memory; communicate."</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Yarışı nasıl yakalarsın?</span>
+        <span class="lang-en">How do you catch a race?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/10</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">go run -race</span>
+        <span class="lang-en">go run -race</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">$ go run -race main.go
+
+<span class="com">// veya:</span>
+$ go test -race ./...
+
+<span class="com">// Race detector veri yarışını tespit eder.</span>
+<span class="com">// Hangi goroutine, hangi satır — hepsini söyler.</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr"><code class="inl">-race</code> bayrağı yarış durumlarını yakalar.</span>
+        <span class="lang-en">The <code class="inl">-race</code> flag catches race conditions.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Programı yavaşlatır (~10×). Geliştirmede ve CI'da çalıştır, prod'da değil.</span>
+        <span class="lang-en">It slows the program (~10×). Use it in dev and CI, not in production.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Bir tuzak daha…</span>
+        <span class="lang-en">One more trap…</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/10</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">🪤</span>
+        <span class="lang-tr">Loop değişkeni tuzağı</span>
+        <span class="lang-en">Loop variable trap</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Go 1.22 öncesi:</span>
+<span class="kw">for</span> _, ad := <span class="kw">range</span> isimler {
+    <span class="kw">go</span> <span class="kw">func</span>() {
+        fmt.<span class="fn">Println</span>(ad)   <span class="com">// 💥 hep son ismi yazar</span>
+    }()
+}
+
+<span class="com">// Çözüm — değeri içeride yakala:</span>
+<span class="kw">for</span> _, ad := <span class="kw">range</span> isimler {
+    ad := ad
+    <span class="kw">go</span> <span class="kw">func</span>() { fmt.<span class="fn">Println</span>(ad) }()
+}</pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr">Eski Go'da loop değişkeni paylaşılırdı. Go 1.22+ artık her iterasyonda yeniler.</span>
+        <span class="lang-en">In old Go, loop vars were shared. Go 1.22+ creates a new one each iteration.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">1.22+ kullanıyorsan rahat ol. Ama eski koda bakacaksan bu kalıbı çok göreceksin.</span>
+        <span class="lang-en">If you're on 1.22+, breathe easy. Reading older code? You'll see this pattern often.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Goroutine'i durdurmak?</span>
+        <span class="lang-en">Stopping a goroutine?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/10</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">⏹️</span>
+        <span class="lang-tr">context — iptal sinyali</span>
+        <span class="lang-en">context — cancel signal</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">ctx, cancel := context.<span class="fn">WithTimeout</span>(
+    context.<span class="fn">Background</span>(), <span class="num">2</span>*time.Second,
+)
+<span class="kw">defer</span> <span class="fn">cancel</span>()
+
+<span class="kw">go</span> <span class="fn">isYap</span>(ctx)
+
+<span class="com">// isYap içinde: ctx.Done() kanalını dinle, gelirse bitir.</span></pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr"><code class="inl">context</code> = "artık iptal" demenin standart yolu.</span>
+        <span class="lang-en"><code class="inl">context</code> = standard way to say "cancel now".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Network, DB, uzun süren her iş <code class="inl">context.Context</code> alır. Kullanıcı kapatırsa, timeout dolarsa — temiz iptal.</span>
+        <span class="lang-en">Network, DB, any long task takes a <code class="inl">context.Context</code>. User cancels or timeout fires → clean shutdown.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">10<span class="of">/10</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">go ile başlat · WaitGroup ile bekle</p>
+        <p class="big purple lang-en">start with go · wait with WaitGroup</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Goroutine ucuz ve kolay. Tek tehlike: aynı veriyi paylaşmak.</span>
+        <span class="lang-en">Goroutines are cheap and easy. The one danger: sharing data.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>🚀 başlat:</b> <code class="inl">go fonksiyon()</code><br/>
+          <b>💀 dikkat:</b> main biterse hepsi biter<br/>
+          <b>🔢 bekle:</b> <code class="inl">sync.WaitGroup</code><br/>
+          <b>🪶 ucuz:</b> binlercesi sorun değil<br/>
+          <b>⚠️ tehlike:</b> aynı veri = race<br/>
+          <b>🎯 yakala:</b> <code class="inl">go test -race</code><br/>
+          <b>⏹️ iptal:</b> <code class="inl">context.Context</code>
+        </span>
+        <span class="lang-en">
+          <b>🚀 start:</b> <code class="inl">go fn()</code><br/>
+          <b>💀 careful:</b> when main exits, all die<br/>
+          <b>🔢 wait:</b> <code class="inl">sync.WaitGroup</code><br/>
+          <b>🪶 cheap:</b> thousands are fine<br/>
+          <b>⚠️ danger:</b> shared data = race<br/>
+          <b>🎯 catch:</b> <code class="inl">go test -race</code><br/>
+          <b>⏹️ cancel:</b> <code class="inl">context.Context</code>
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 04 · Slice</title>
+  <meta name="description" content="Go'da esnek liste — slice — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="04-slice">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 04 · Slice</span>
+        <span class="lang-en">GoLove · 04 · Slice</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~2 dakika · esnek liste tutmak</span>
+        <span class="lang-en">11 cards · ~2 minutes · flexible lists in Go</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">📋</span>
+        <span class="lang-tr">Liste lazım</span>
+        <span class="lang-en">You need a list</span>
+      </h2>
+      <div class="stage">
+        <div style="text-align:center;">
+          <div class="items">
+            <span>🍞</span><span>🥛</span><span>🥚</span><span>🧀</span><span>🍅</span>
+            <span class="more">
+              <span class="lang-tr">…ve devamı</span>
+              <span class="lang-en">…and more</span>
+            </span>
+          </div>
+          <p style="font-size:13px;color:var(--pencil);margin-top:14px;font-weight:500;">
+            <span class="lang-tr">1 ürün → 5 ürün → 100 ürün</span>
+            <span class="lang-en">1 item → 5 items → 100 items</span>
+          </p>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Tek şey için değişken. Çok şey için <i>liste</i>.</span>
+        <span class="lang-en">One thing? Use a variable. Many things? Use a <i>list</i>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go'da bu listeye <b>slice</b> diyoruz. Sayı değişiyorsa slice kullan.</span>
+        <span class="lang-en">In Go, this list is called a <b>slice</b>. If the count can change, use a slice.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Slice nasıl yazılır?</span>
+        <span class="lang-en">How do you write a slice?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📦</span>
+        <span class="lang-tr">Slice böyle yazılır</span>
+        <span class="lang-en">This is how you write a slice</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">sehirler := []<span class="typ">string</span>{<span class="str">"İstanbul"</span>, <span class="str">"Ankara"</span>, <span class="str">"İzmir"</span>}</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Köşeli parantez. Tip. Süslü parantez. Elemanlar.</span>
+        <span class="lang-en">Square brackets. Type. Curly braces. Elements.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">[]string</code> = string listesi.<br/><code class="inl">:=</code> = yeni değişken yarat.</span>
+        <span class="lang-en"><code class="inl">[]string</code> = a list of strings.<br/><code class="inl">:=</code> = make a new variable.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Sonradan eleman eklemek?</span>
+        <span class="lang-en">Adding more later?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">➕</span>
+        <span class="lang-tr">append ile büyüt</span>
+        <span class="lang-en">Grow it with append</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">sehirler = <span class="fn">append</span>(sehirler, <span class="str">"Bursa"</span>)
+
+<span class="com">// [İstanbul Ankara İzmir Bursa]</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">append yeni eleman ekler. Slice büyür.</span>
+        <span class="lang-en">append adds a new element. The slice grows.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">İlk argüman: hangi slice.<br/>Sonraki: ne ekliyorsun. Bir veya daha fazla.</span>
+        <span class="lang-en">First argument: which slice.<br/>Then: what to add. One or more.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Ama küçük bir tuzak var…</span>
+        <span class="lang-en">But there's a small trap…</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">⚠️</span>
+        <span class="lang-tr">append'in tuzağı</span>
+        <span class="lang-en">The append trap</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="good">sehirler = <span class="fn">append</span>(sehirler, <span class="str">"Bursa"</span>)</span>   <span class="com">// ✓</span>
+
+<span class="bad"><span class="fn">append</span>(sehirler, <span class="str">"Bursa"</span>)</span>              <span class="com">// ✗</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Sonucu geri ata. <code class="inl">sehirler =</code> kısmını yazmayı unutma.</span>
+        <span class="lang-en">Assign the result back. Don't forget the <code class="inl">sehirler =</code> part.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">append yeni bir liste döner. Yakalamazsan kaybolur.</span>
+        <span class="lang-en">append returns a new list. If you don't catch it, it's lost.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Eklediklerine nasıl bakarsın?</span>
+        <span class="lang-en">How do you read what you added?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">🔢</span>
+        <span class="lang-tr">İndex ile eriş</span>
+        <span class="lang-en">Read with an index</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">sehirler[<span class="num">0</span>]                    <span class="com">// "İstanbul"</span>
+sehirler[<span class="num">1</span>]                    <span class="com">// "Ankara"</span>
+sehirler[<span class="fn">len</span>(sehirler)-<span class="num">1</span>]       <span class="com">// son eleman / last</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">0'dan başlar. Son eleman: <code class="inl">len(slice)-1</code>.</span>
+        <span class="lang-en">Starts at 0. Last element: <code class="inl">len(slice)-1</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">len()</code> kaç eleman olduğunu söyler.<br/>Negatif index yok. <code class="inl">s[-1]</code> Go'da hata verir.</span>
+        <span class="lang-en"><code class="inl">len()</code> tells you how many elements there are.<br/>No negative indexing. <code class="inl">s[-1]</code> is an error in Go.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Ya yanlış index verirsen?</span>
+        <span class="lang-en">What if the index is wrong?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">💥</span>
+        <span class="lang-tr">Panic — program durur</span>
+        <span class="lang-en">Panic — the program stops</span>
+      </h2>
+      <div class="stage">
+<pre class="code">sehirler := []<span class="typ">string</span>{<span class="str">"İstanbul"</span>, <span class="str">"Ankara"</span>}
+sehirler[<span class="num">5</span>]
+
+<span class="com">// 💥 panic: runtime error:</span>
+<span class="com">//    index out of range [5] with length 2</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Olmayan indeks → program durur.</span>
+        <span class="lang-en">Wrong index → program stops.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Buna <b>panic</b> denir. Go hata mesajı verir. Hangi satırda olduğunu söyler.</span>
+        <span class="lang-en">This is called a <b>panic</b>. Go shows an error message. It tells you the line.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Slice'tan parça almak?</span>
+        <span class="lang-en">Taking a slice of a slice?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">✂️</span>
+        <span class="lang-tr">Parça al</span>
+        <span class="lang-en">Take a piece</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">sehirler := []<span class="typ">string</span>{<span class="str">"İst"</span>, <span class="str">"Ank"</span>, <span class="str">"İzm"</span>, <span class="str">"Brs"</span>}
+ortalar := sehirler[<span class="num">1</span>:<span class="num">3</span>]
+
+<span class="com">// ortalar: ["Ank", "İzm"]</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr"><code class="inl">slice[başlangıç:bitiş]</code>. Bitiş hariç.</span>
+        <span class="lang-en"><code class="inl">slice[start:end]</code>. End is excluded.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">[1:3]</code> → 1 ve 2'yi al. 3 yok.<br/>Yani 2 eleman dönüyor.</span>
+        <span class="lang-en"><code class="inl">[1:3]</code> → take 1 and 2. Skip 3.<br/>So you get 2 elements.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Ama parça aldığında bir sürpriz var…</span>
+        <span class="lang-en">But there's a surprise when you take a piece…</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">🪞</span>
+        <span class="lang-tr">Parça pencere açar</span>
+        <span class="lang-en">A piece is a window, not a copy</span>
+      </h2>
+      <div class="stage">
+<pre class="code">sehirler := []<span class="typ">string</span>{<span class="str">"A"</span>, <span class="str">"B"</span>, <span class="str">"C"</span>}
+parca := sehirler[<span class="num">0</span>:<span class="num">2</span>]
+parca[<span class="num">0</span>] = <span class="str">"X"</span>
+
+fmt.<span class="fn">Println</span>(sehirler)
+<span class="com">// [X B C]  😱</span></pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr">Parça yeni liste değil. Aynı verinin penceresi.</span>
+        <span class="lang-en">A piece is not a new list. It's a window to the same data.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Parçayı değiştirdin mi, asıl liste de değişir.<br/>Bağımsız kopya istiyorsan: bir sonraki kart.</span>
+        <span class="lang-en">Change the piece, the original changes too.<br/>Want an independent copy? Next card.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Gerçek kopya nasıl?</span>
+        <span class="lang-en">How do you make a real copy?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📋</span>
+        <span class="lang-tr">Gerçek kopya: Clone</span>
+        <span class="lang-en">A real copy: Clone</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">import</span> <span class="str">"slices"</span>
+
+kopya := slices.<span class="fn">Clone</span>(sehirler)
+kopya[<span class="num">0</span>] = <span class="str">"X"</span>
+
+<span class="com">// sehirler değişmez / unchanged</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">slices.Clone</code> bağımsız bir kopya verir.</span>
+        <span class="lang-en"><code class="inl">slices.Clone</code> gives an independent copy.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go 1.21 (2023) ile geldi. Kısa ve net.<br/>Asıl liste korunmalıysa bunu kullan.</span>
+        <span class="lang-en">Added in Go 1.21 (2023). Short and clear.<br/>Use it when the original must stay the same.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">slices paketinde başka neler var?</span>
+        <span class="lang-en">What else is in the slices package?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🛠️</span>
+        <span class="lang-tr">Hazır araçlar</span>
+        <span class="lang-en">Built-in tools</span>
+      </h2>
+      <div class="stage">
+        <div class="fn-list lang-tr">
+          <span><b>slices.Contains</b>(s, x) <i>// var mı?</i></span>
+          <span><b>slices.Sort</b>(s)        <i>// sırala</i></span>
+          <span><b>slices.Reverse</b>(s)     <i>// ters çevir</i></span>
+          <span><b>slices.Index</b>(s, x)    <i>// kaçıncı?</i></span>
+          <span><b>slices.Equal</b>(a, b)    <i>// aynı mı?</i></span>
+        </div>
+        <div class="fn-list lang-en">
+          <span><b>slices.Contains</b>(s, x) <i>// is it there?</i></span>
+          <span><b>slices.Sort</b>(s)        <i>// sort</i></span>
+          <span><b>slices.Reverse</b>(s)     <i>// reverse</i></span>
+          <span><b>slices.Index</b>(s, x)    <i>// at what index?</i></span>
+          <span><b>slices.Equal</b>(a, b)    <i>// same?</i></span>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Döngü yazmadan önce <code class="inl">slices</code> paketine bak.</span>
+        <span class="lang-en">Before writing a loop, check the <code class="inl">slices</code> package.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go ekibi yazdı. Test edildi. Hızlı. Sen de kullan.</span>
+        <span class="lang-en">Written by the Go team. Tested. Fast. Just use it.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">slice = büyüyebilen liste</p>
+        <p class="big purple lang-en">slice = a list that grows</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Yarat → büyüt → eriş → parça al → kopyala.</span>
+        <span class="lang-en">Create → grow → access → slice → clone.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>📦 yarat:</b> <code class="inl">[]Tip{...}</code><br/>
+          <b>➕ büyüt:</b> <code class="inl">s = append(s, x)</code><br/>
+          <b>🔢 eriş:</b> <code class="inl">s[i]</code> · <b>✂️ parça:</b> <code class="inl">s[a:b]</code><br/>
+          <b>📋 kopya:</b> <code class="inl">slices.Clone(s)</code>
+        </span>
+        <span class="lang-en">
+          <b>📦 create:</b> <code class="inl">[]Type{...}</code><br/>
+          <b>➕ grow:</b> <code class="inl">s = append(s, x)</code><br/>
+          <b>🔢 access:</b> <code class="inl">s[i]</code> · <b>✂️ slice:</b> <code class="inl">s[a:b]</code><br/>
+          <b>📋 clone:</b> <code class="inl">slices.Clone(s)</code>
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

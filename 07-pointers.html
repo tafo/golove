@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 07 · Pointer</title>
+  <meta name="description" content="Go'da pointer — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="07-pointers">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 07 · Pointer</span>
+        <span class="lang-en">GoLove · 07 · Pointers</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">10 kart · ~3 dakika · değer mi adres mi?</span>
+        <span class="lang-en">10 cards · ~3 minutes · value or address?</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/10</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">📍</span>
+        <span class="lang-tr">Niye pointer?</span>
+        <span class="lang-en">Why pointers?</span>
+      </h2>
+      <div class="stage">
+        <div style="text-align:center;">
+          <div class="items">
+            <span>📦</span><span style="font-size:30px;color:var(--pencil)">vs</span><span>📍</span>
+          </div>
+          <p style="font-size:13.5px;color:var(--pencil);margin-top:18px;font-weight:500;line-height:1.6;">
+            <span class="lang-tr">değer = kopya · pointer = adres</span>
+            <span class="lang-en">value = a copy · pointer = an address</span>
+          </p>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Pointer = bir değerin <b>nerede tutulduğunun</b> adresi.</span>
+        <span class="lang-en">A pointer is <b>the address</b> where a value lives.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">İki amaç: (1) function içinden dışarıdaki değeri değiştirmek, (2) büyük yapıları kopyalamadan paylaşmak.</span>
+        <span class="lang-en">Two reasons: (1) mutate outside data from inside a function, (2) share large structs without copying.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Adresi nasıl alırsın?</span>
+        <span class="lang-en">How do you get an address?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/10</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🆔</span>
+        <span class="lang-tr">&amp; ile adres al</span>
+        <span class="lang-en">Take an address with &amp;</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yas := <span class="num">12</span>
+p := &amp;yas         <span class="com">// p, yas'ın adresini tutar</span>
+
+fmt.<span class="fn">Println</span>(yas)   <span class="com">// 12</span>
+fmt.<span class="fn">Println</span>(p)     <span class="com">// 0xc0000180a8 gibi</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">&amp;</code> bir değişkenin <b>adresini</b> verir.</span>
+        <span class="lang-en"><code class="inl">&amp;</code> takes a variable's <b>address</b>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Adres bir sayı (bellek konumu). Direkt yazdırırsan tuhaf görünür ama önemli değil — pointer'ı kullanırsın, yazdırmazsın.</span>
+        <span class="lang-en">An address is a number (memory location). It looks ugly when printed but doesn't matter — you use pointers, you rarely print them.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Adresteki değere ulaşmak?</span>
+        <span class="lang-en">Reading the value at the address?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/10</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">👁️</span>
+        <span class="lang-tr">* ile değere bak</span>
+        <span class="lang-en">Read the value with *</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">yas := <span class="num">12</span>
+p := &amp;yas
+
+fmt.<span class="fn">Println</span>(*p)    <span class="com">// 12 — adresteki değer</span>
+
+*p = <span class="num">13</span>            <span class="com">// adresteki değeri değiştir</span>
+fmt.<span class="fn">Println</span>(yas)   <span class="com">// 13 — yas da değişti!</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr"><code class="inl">*p</code> = "p'nin işaret ettiği değer".</span>
+        <span class="lang-en"><code class="inl">*p</code> = "the value p points to".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Buna <b>dereference</b> denir. <code class="inl">&amp;</code> adres alır, <code class="inl">*</code> adresten değer çeker. Birbirinin tersi.</span>
+        <span class="lang-en">This is called <b>dereferencing</b>. <code class="inl">&amp;</code> takes an address, <code class="inl">*</code> reads through one. Inverses of each other.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Pointer'ın tipi?</span>
+        <span class="lang-en">A pointer's type?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/10</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">📦</span>
+        <span class="lang-tr">Pointer tipi: *T</span>
+        <span class="lang-en">Pointer type: *T</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> p *<span class="typ">int</span>            <span class="com">// int'e pointer</span>
+<span class="kw">var</span> kp *<span class="typ">Kitap</span>         <span class="com">// Kitap'a pointer</span>
+
+yas := <span class="num">12</span>
+p = &amp;yas               <span class="com">// p artık yas'ı işaret ediyor</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr"><code class="inl">*Tip</code> = "şu tipe işaret eden pointer".</span>
+        <span class="lang-en"><code class="inl">*Type</code> = "a pointer to that type".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">int</code> bir sayı tutar. <code class="inl">*int</code> bir <i>sayının adresini</i> tutar. Farklı tipler.</span>
+        <span class="lang-en"><code class="inl">int</code> holds a number. <code class="inl">*int</code> holds <i>the address of one</i>. Different types.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Boş pointer?</span>
+        <span class="lang-en">Empty pointer?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/10</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">❓</span>
+        <span class="lang-tr">nil — hiçbir yere işaret etmiyor</span>
+        <span class="lang-en">nil — points to nothing</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> p *<span class="typ">int</span>          <span class="com">// p == nil</span>
+
+<span class="kw">if</span> p == <span class="kw">nil</span> {
+    fmt.<span class="fn">Println</span>(<span class="str">"henüz adres yok"</span>)
+}</pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Pointer'ın sıfır değeri <code class="inl">nil</code>'dir.</span>
+        <span class="lang-en">A pointer's zero value is <code class="inl">nil</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">"Optional" tipi gibi düşün — değer olabilir, olmayabilir. <code class="inl">nil</code> kontrolü Go kodunda çok yaygındır.</span>
+        <span class="lang-en">Think of it like an "optional" — value may or may not be there. <code class="inl">nil</code> checks are very common in Go.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Function'a pointer geçmek?</span>
+        <span class="lang-en">Passing a pointer to a function?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/10</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🛠️</span>
+        <span class="lang-tr">Function ile değiştirmek</span>
+        <span class="lang-en">Mutating through a function</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Değer alır → kopya, dışarı yansımaz</span>
+<span class="kw">func</span> <span class="fn">artir</span>(n <span class="typ">int</span>)   { n++ }
+
+<span class="com">// Pointer alır → asıl değişkeni değiştirir</span>
+<span class="kw">func</span> <span class="fn">artir</span>(n *<span class="typ">int</span>)  { *n++ }
+
+yas := <span class="num">12</span>
+<span class="fn">artir</span>(&amp;yas)
+fmt.<span class="fn">Println</span>(yas)   <span class="com">// 13</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Function dışarıyı değiştirsin istiyorsan, pointer geç.</span>
+        <span class="lang-en">If a function should change outer data, pass a pointer.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go her zaman <b>kopya</b> ile çalışır. Pointer kopyalansa da işaret ettiği değer aynı kalır — bu yüzden değişiklik dışarıdan görülür.</span>
+        <span class="lang-en">Go always copies. Pointers get copied too — but they point to the same value, so changes <i>are</i> visible outside.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Struct ile en sık kullanım?</span>
+        <span class="lang-en">The most common use with structs?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/10</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📋</span>
+        <span class="lang-tr">Struct'a pointer</span>
+        <span class="lang-en">Pointer to a struct</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">k := <span class="typ">Kitap</span>{Baslik: <span class="str">"X"</span>, Yil: <span class="num">2020</span>}
+kp := &amp;k
+
+kp.Yil = <span class="num">2021</span>          <span class="com">// otomatik dereference!</span>
+<span class="com">// Aynı şey: (*kp).Yil = 2021</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Struct pointer'ında nokta otomatik dereference yapar.</span>
+        <span class="lang-en">With struct pointers, the dot dereferences automatically.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">kp.Yil</code> daha okunaklı, <code class="inl">(*kp).Yil</code> ile aynıdır. Go bu iyiliği bize yapar.</span>
+        <span class="lang-en"><code class="inl">kp.Yil</code> reads better and is identical to <code class="inl">(*kp).Yil</code>. Go does this for you.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">nil pointer'a dokunmak?</span>
+        <span class="lang-en">Touching a nil pointer?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/10</span></span>
+      <h2 class="hook red">
+        <span class="emoji">💥</span>
+        <span class="lang-tr">nil dereference = panic</span>
+        <span class="lang-en">nil dereference = panic</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> p *<span class="typ">Kitap</span>      <span class="com">// nil</span>
+
+fmt.<span class="fn">Println</span>(p.Baslik)
+<span class="com">// 💥 panic: runtime error:</span>
+<span class="com">//    invalid memory address</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr"><code class="inl">nil</code> pointer'ın değerine bakmak <b>panic</b> verir.</span>
+        <span class="lang-en">Reading through a <code class="inl">nil</code> pointer <b>panics</b>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Şüphedeysen önce kontrol et: <code class="inl">if p != nil { ... }</code>. Çoğu Go bug'ı budur.</span>
+        <span class="lang-en">When in doubt, check first: <code class="inl">if p != nil { ... }</code>. Most Go bugs are this.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Slice/map'e pointer gerekir mi?</span>
+        <span class="lang-en">Do slices/maps need pointers?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/10</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">🪞</span>
+        <span class="lang-tr">Slice/map zaten "referans"</span>
+        <span class="lang-en">Slices/maps are already "reference-like"</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Hatalı — gereksiz pointer:</span>
+<span class="kw">func</span> <span class="fn">ekle</span>(s *[]<span class="typ">int</span>, x <span class="typ">int</span>) { *s = <span class="fn">append</span>(*s, x) }
+
+<span class="com">// Doğru — slice header zaten pointer içerir:</span>
+<span class="kw">func</span> <span class="fn">ekle</span>(s []<span class="typ">int</span>, x <span class="typ">int</span>) []<span class="typ">int</span> {
+    <span class="kw">return</span> <span class="fn">append</span>(s, x)
+}</pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr">Slice ve map'lere ayrıca pointer alma. İçeriden zaten paylaşılır.</span>
+        <span class="lang-en">Don't take pointers to slices or maps. They share data already.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Onlar zaten <b>içlerinde</b> bir pointer barındırır. <code class="inl">*[]int</code> görürsen genelde yanlıştır.</span>
+        <span class="lang-en">They <b>contain</b> a pointer internally. Seeing <code class="inl">*[]int</code> is usually a mistake.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">10<span class="of">/10</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">&amp; adres al · * değere bak</p>
+        <p class="big purple lang-en">&amp; takes address · * reads value</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Pointer = adres. & ile al → * ile bak/yaz.</span>
+        <span class="lang-en">Pointer = address. Take with & → use with *.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>🆔 adres:</b> <code class="inl">p := &amp;x</code><br/>
+          <b>👁️ değer:</b> <code class="inl">*p</code> · <code class="inl">*p = 5</code><br/>
+          <b>📦 tip:</b> <code class="inl">*int</code>, <code class="inl">*Kitap</code><br/>
+          <b>❓ boş:</b> <code class="inl">var p *T</code> → nil<br/>
+          <b>📋 struct:</b> <code class="inl">kp.Alan</code> otomatik deref<br/>
+          <b>💥 panic:</b> nil pointer'ı dereference etme<br/>
+          <b>🪞 unutma:</b> slice/map'e pointer alma
+        </span>
+        <span class="lang-en">
+          <b>🆔 address:</b> <code class="inl">p := &amp;x</code><br/>
+          <b>👁️ value:</b> <code class="inl">*p</code> · <code class="inl">*p = 5</code><br/>
+          <b>📦 type:</b> <code class="inl">*int</code>, <code class="inl">*Book</code><br/>
+          <b>❓ empty:</b> <code class="inl">var p *T</code> → nil<br/>
+          <b>📋 struct:</b> <code class="inl">kp.Field</code> auto-deref<br/>
+          <b>💥 panic:</b> don't deref a nil pointer<br/>
+          <b>🪞 reminder:</b> don't take pointers to slices/maps
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

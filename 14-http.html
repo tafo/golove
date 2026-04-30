@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 14 · HTTP Sunucu</title>
+  <meta name="description" content="Go'da HTTP sunucu — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="14-http">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 14 · HTTP Sunucu</span>
+        <span class="lang-en">GoLove · 14 · HTTP Server</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~3 dakika · stdlib ile sunucu yaz</span>
+        <span class="lang-en">11 cards · ~3 minutes · build a server with stdlib</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🌐</span>
+        <span class="lang-tr">Niye Go ile HTTP?</span>
+        <span class="lang-en">Why HTTP in Go?</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Diğer dillerde: Express, FastAPI, Spring Boot...</span>
+<span class="com">// Go'da: stdlib içinde "net/http"</span>
+<span class="com">//</span>
+<span class="com">// Kütüphane yok. Framework yok.</span>
+<span class="com">// Tek import. Hazır production sunucu.</span></pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">Go'nun standart kütüphanesi tek başına HTTP sunucu yazar.</span>
+        <span class="lang-en">Go's standard library is enough to write an HTTP server.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Production'da çoğu Go API'si üçüncü parti framework olmadan yazılır. <code class="inl">net/http</code> hızlıdır, küçüktür, dengelidir.</span>
+        <span class="lang-en">Most production Go APIs ship without a framework. <code class="inl">net/http</code> is fast, small, and stable.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">İlk sunucu?</span>
+        <span class="lang-en">A first server?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🚀</span>
+        <span class="lang-tr">Hello, World sunucusu</span>
+        <span class="lang-en">Hello, World server</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">package</span> main
+
+<span class="kw">import</span> (
+    <span class="str">"fmt"</span>
+    <span class="str">"net/http"</span>
+)
+
+<span class="kw">func</span> <span class="fn">main</span>() {
+    http.<span class="fn">HandleFunc</span>(<span class="str">"/"</span>, <span class="kw">func</span>(w http.<span class="typ">ResponseWriter</span>, r *http.<span class="typ">Request</span>) {
+        fmt.<span class="fn">Fprintln</span>(w, <span class="str">"Merhaba, dünya!"</span>)
+    })
+    http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, <span class="kw">nil</span>)
+}</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">8 satır. Tam çalışan bir HTTP sunucu.</span>
+        <span class="lang-en">8 lines. A working HTTP server.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">go run main.go</code> sonra <code class="inl">localhost:8080</code>'i aç. İşte bu kadar.</span>
+        <span class="lang-en"><code class="inl">go run main.go</code>, then open <code class="inl">localhost:8080</code>. That's it.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Handler nedir?</span>
+        <span class="lang-en">What's a handler?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🤝</span>
+        <span class="lang-tr">Handler imzası</span>
+        <span class="lang-en">The handler signature</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">handler</span>(w http.<span class="typ">ResponseWriter</span>, r *http.<span class="typ">Request</span>) {
+    <span class="com">// w → cevabı yazdığın yer</span>
+    <span class="com">// r → gelen istek (yol, method, body, header...)</span>
+}</pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Her handler iki argüman alır: <b>w</b> cevap, <b>r</b> istek.</span>
+        <span class="lang-en">Every handler takes two args: <b>w</b> for response, <b>r</b> for request.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">w</code> bir <code class="inl">io.Writer</code> — <code class="inl">fmt.Fprintf</code>, <code class="inl">json.NewEncoder</code> gibi her şey çalışır. <code class="inl">r</code> isteğin tamamını taşır.</span>
+        <span class="lang-en"><code class="inl">w</code> is an <code class="inl">io.Writer</code> — <code class="inl">fmt.Fprintf</code>, <code class="inl">json.NewEncoder</code>, etc. all work. <code class="inl">r</code> carries the full request.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Birden çok yol?</span>
+        <span class="lang-en">Multiple routes?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">🛣️</span>
+        <span class="lang-tr">Yollar (routes)</span>
+        <span class="lang-en">Routes</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">mux := http.<span class="fn">NewServeMux</span>()
+
+mux.<span class="fn">HandleFunc</span>(<span class="str">"GET /"</span>, anaSayfa)
+mux.<span class="fn">HandleFunc</span>(<span class="str">"GET /kitaplar"</span>, kitapListesi)
+mux.<span class="fn">HandleFunc</span>(<span class="str">"GET /kitaplar/{id}"</span>, kitapDetay)
+mux.<span class="fn">HandleFunc</span>(<span class="str">"POST /kitaplar"</span>, kitapEkle)
+
+http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, mux)</pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">Go 1.22+ <code class="inl">ServeMux</code> method ve path parametrelerini anlar.</span>
+        <span class="lang-en">Go 1.22+ <code class="inl">ServeMux</code> understands methods and path params.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">r.PathValue("id")</code> ile <code class="inl">{id}</code>'yi okursun. Eskiden router kütüphaneleri gerekirdi — artık stdlib yetiyor.</span>
+        <span class="lang-en">Read <code class="inl">{id}</code> with <code class="inl">r.PathValue("id")</code>. Used to need a router lib — now stdlib is enough.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">İstekten bilgi okumak?</span>
+        <span class="lang-en">Reading from a request?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">📥</span>
+        <span class="lang-tr">İstekten okumak</span>
+        <span class="lang-en">Reading the request</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">r.Method                    <span class="com">// "GET", "POST"</span>
+r.URL.Path                  <span class="com">// "/kitaplar/42"</span>
+r.<span class="fn">PathValue</span>(<span class="str">"id"</span>)             <span class="com">// path parametresi</span>
+r.URL.<span class="fn">Query</span>().<span class="fn">Get</span>(<span class="str">"q"</span>)        <span class="com">// ?q=...</span>
+r.Header.<span class="fn">Get</span>(<span class="str">"Authorization"</span>) <span class="com">// header</span>
+r.Body                      <span class="com">// io.Reader (POST body)</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">İsteğin her parçası <code class="inl">r</code> içinde — keşfetmesi kolay.</span>
+        <span class="lang-en">Every part of the request lives on <code class="inl">r</code> — easy to discover.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Go'nun standart yapısı: <code class="inl">net/http</code> tipleri, <code class="inl">net/url</code> ile sıkı entegredir. Her şey predictable.</span>
+        <span class="lang-en">Go's structure: <code class="inl">net/http</code> types integrate with <code class="inl">net/url</code> tightly. Predictable everywhere.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Cevap döndürmek?</span>
+        <span class="lang-en">Sending a response?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">📤</span>
+        <span class="lang-tr">Cevap yazmak</span>
+        <span class="lang-en">Writing a response</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">w.Header().<span class="fn">Set</span>(<span class="str">"Content-Type"</span>, <span class="str">"text/plain"</span>)
+w.<span class="fn">WriteHeader</span>(http.StatusCreated)   <span class="com">// 201</span>
+fmt.<span class="fn">Fprintln</span>(w, <span class="str">"oluşturuldu"</span>)
+
+<span class="com">// Sıra önemli: header → status → body</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Önce header'lar, sonra status, en son body — bu sıra.</span>
+        <span class="lang-en">Headers first, status next, body last — this order matters.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Status hiç yazmazsan Go ilk yazıdan önce 200 OK gönderir. <code class="inl">http.Status...</code> sabitleri okunaklı: <code class="inl">StatusOK</code>, <code class="inl">StatusNotFound</code>.</span>
+        <span class="lang-en">If you skip the status, Go sends 200 OK before the first write. Use <code class="inl">http.Status...</code> constants — they're self-documenting.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">JSON döndürmek?</span>
+        <span class="lang-en">Returning JSON?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">📦</span>
+        <span class="lang-tr">JSON döndür</span>
+        <span class="lang-en">Returning JSON</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">type</span> <span class="typ">Kitap</span> <span class="kw">struct</span> {
+    Baslik <span class="typ">string</span> <span class="str">`json:"baslik"`</span>
+    Yazar  <span class="typ">string</span> <span class="str">`json:"yazar"`</span>
+}
+
+<span class="kw">func</span> <span class="fn">handler</span>(w http.<span class="typ">ResponseWriter</span>, r *http.<span class="typ">Request</span>) {
+    k := <span class="typ">Kitap</span>{<span class="str">"Tutunamayanlar"</span>, <span class="str">"Atay"</span>}
+    w.Header().<span class="fn">Set</span>(<span class="str">"Content-Type"</span>, <span class="str">"application/json"</span>)
+    json.<span class="fn">NewEncoder</span>(w).<span class="fn">Encode</span>(k)
+}</pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr"><code class="inl">json.NewEncoder(w).Encode(x)</code> = struct → JSON → cevap.</span>
+        <span class="lang-en"><code class="inl">json.NewEncoder(w).Encode(x)</code> = struct → JSON → response.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Backtick'lerdeki <code class="inl">json:"..."</code> alan adlarını JSON'a eşler. Stdlib hızlı ve güvenli — başka kütüphane lazım değil.</span>
+        <span class="lang-en">The backtick <code class="inl">json:"..."</code> tags map field names to JSON. Stdlib is fast and safe — no third-party needed.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">JSON istek almak?</span>
+        <span class="lang-en">Receiving JSON?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">📨</span>
+        <span class="lang-tr">JSON istek oku</span>
+        <span class="lang-en">Decoding JSON</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">kitapEkle</span>(w http.<span class="typ">ResponseWriter</span>, r *http.<span class="typ">Request</span>) {
+    <span class="kw">var</span> k <span class="typ">Kitap</span>
+    err := json.<span class="fn">NewDecoder</span>(r.Body).<span class="fn">Decode</span>(&amp;k)
+    <span class="kw">if</span> err != <span class="kw">nil</span> {
+        http.<span class="fn">Error</span>(w, <span class="str">"geçersiz JSON"</span>, http.StatusBadRequest)
+        <span class="kw">return</span>
+    }
+
+    <span class="com">// k artık doldu, kullanabilirsin</span>
+}</pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr"><code class="inl">json.NewDecoder(r.Body).Decode(&amp;x)</code> = body → struct.</span>
+        <span class="lang-en"><code class="inl">json.NewDecoder(r.Body).Decode(&amp;x)</code> = body → struct.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr"><code class="inl">http.Error(w, mesaj, kod)</code> = "kötü istek" cevabını tek satırda gönderir. Hata kontrolünü atlama.</span>
+        <span class="lang-en"><code class="inl">http.Error(w, msg, code)</code> sends a clean error response in one line. Don't skip error checks.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tüm handler'lara ortak iş?</span>
+        <span class="lang-en">Common work for all handlers?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🧅</span>
+        <span class="lang-tr">Middleware</span>
+        <span class="lang-en">Middleware</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">logging</span>(next http.<span class="typ">Handler</span>) http.<span class="typ">Handler</span> {
+    <span class="kw">return</span> http.<span class="fn">HandlerFunc</span>(<span class="kw">func</span>(w http.<span class="typ">ResponseWriter</span>, r *http.<span class="typ">Request</span>) {
+        log.<span class="fn">Printf</span>(<span class="str">"%s %s"</span>, r.Method, r.URL.Path)
+        next.<span class="fn">ServeHTTP</span>(w, r)
+    })
+}
+
+http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, <span class="fn">logging</span>(mux))</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Middleware = "handler'ı sarmalayan handler".</span>
+        <span class="lang-en">Middleware = "a handler that wraps another handler".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Log, auth, CORS, rate limit — hepsini middleware ile ekle. Üst üste sarmalanır: <code class="inl">auth(logging(mux))</code>.</span>
+        <span class="lang-en">Logging, auth, CORS, rate limit — add them as middleware. Stackable: <code class="inl">auth(logging(mux))</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Programı düzgün kapatmak?</span>
+        <span class="lang-en">Clean shutdown?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">🛑</span>
+        <span class="lang-tr">Graceful shutdown</span>
+        <span class="lang-en">Graceful shutdown</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">srv := &amp;http.<span class="typ">Server</span>{Addr: <span class="str">":8080"</span>, Handler: mux}
+
+<span class="kw">go</span> srv.<span class="fn">ListenAndServe</span>()
+
+<span class="com">// Ctrl+C bekle</span>
+sig := <span class="fn">make</span>(<span class="kw">chan</span> os.<span class="typ">Signal</span>, <span class="num">1</span>)
+signal.<span class="fn">Notify</span>(sig, os.Interrupt)
+&lt;-sig
+
+ctx, _ := context.<span class="fn">WithTimeout</span>(context.<span class="fn">Background</span>(), <span class="num">5</span>*time.Second)
+srv.<span class="fn">Shutdown</span>(ctx)    <span class="com">// devam eden istekler bitsin</span></pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Sunucu kapanırken devam eden istekleri bitirmesini bekle.</span>
+        <span class="lang-en">When shutting down, let in-flight requests finish.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Production için zorunlu kalıp. <code class="inl">Shutdown</code> yeni isteği reddeder, eskileri bitirir, sonra döner.</span>
+        <span class="lang-en">Mandatory in production. <code class="inl">Shutdown</code> rejects new requests, drains old ones, then returns.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">stdlib · 8 satır · production</p>
+        <p class="big purple lang-en">stdlib · 8 lines · production</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Go'nun <code class="inl">net/http</code> kütüphanesi tek başına yeterli — framework gerek yok.</span>
+        <span class="lang-en">Go's <code class="inl">net/http</code> alone is enough — no framework needed.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>🚀 başlat:</b> <code class="inl">http.HandleFunc</code> + <code class="inl">ListenAndServe</code><br/>
+          <b>🤝 imza:</b> <code class="inl">func(w, r *http.Request)</code><br/>
+          <b>🛣️ yollar:</b> <code class="inl">"GET /yol/{id}"</code> (1.22+)<br/>
+          <b>📥 oku:</b> <code class="inl">r.PathValue</code> · <code class="inl">r.URL.Query</code> · <code class="inl">r.Body</code><br/>
+          <b>📤 yaz:</b> header → status → body<br/>
+          <b>📦 JSON:</b> <code class="inl">json.NewEncoder/Decoder</code><br/>
+          <b>🧅 middleware:</b> handler'ı sarmala<br/>
+          <b>🛑 kapanış:</b> <code class="inl">srv.Shutdown(ctx)</code>
+        </span>
+        <span class="lang-en">
+          <b>🚀 start:</b> <code class="inl">http.HandleFunc</code> + <code class="inl">ListenAndServe</code><br/>
+          <b>🤝 signature:</b> <code class="inl">func(w, r *http.Request)</code><br/>
+          <b>🛣️ routes:</b> <code class="inl">"GET /path/{id}"</code> (1.22+)<br/>
+          <b>📥 read:</b> <code class="inl">r.PathValue</code> · <code class="inl">r.URL.Query</code> · <code class="inl">r.Body</code><br/>
+          <b>📤 write:</b> header → status → body<br/>
+          <b>📦 JSON:</b> <code class="inl">json.NewEncoder/Decoder</code><br/>
+          <b>🧅 middleware:</b> wrap handlers<br/>
+          <b>🛑 shutdown:</b> <code class="inl">srv.Shutdown(ctx)</code>
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Tüm bölümler tamamlandı 🎉🎉🎉</span>
+        <span class="lang-en">All chapters complete 🎉🎉🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

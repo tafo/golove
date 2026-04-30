@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · Go for beginners — in cards</title>
+  <meta name="description" content="Go programlama dilini kart kart öğren. Hap bilgi, TR/EN, sıfırdan başlangıç." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+
+  <main class="landing">
+
+    <header class="landing-hero">
+      <h1>
+        <span class="gopher">⬡</span> Go<span class="heart">♥</span>Love
+      </h1>
+      <p class="tagline">
+        <span class="lang-tr">Go programlama dili — <span class="accent">kart kart</span>, hap bilgi.</span>
+        <span class="lang-en">Go programming language — <span class="accent">card by card</span>, in bite-sized pills.</span>
+      </p>
+    </header>
+
+    <section class="landing-intro">
+      <h2>
+        <span class="lang-tr">Bu nedir?</span>
+        <span class="lang-en">What is this?</span>
+      </h2>
+      <p class="lang-tr">
+        <b>GoLove</b>, Go dilini sıfırdan öğrenmek isteyenler için hazırlanmış bir kart serisidir. Her bölüm 10–14 kart. Her kart tek bir kavram. Her kart 5–10 saniyede tüketilir.
+      </p>
+      <p class="lang-tr">
+        Klavyede <kbd style="font-size:11px;background:var(--paper-edge);border:1px solid var(--pencil);border-radius:4px;padding:2px 7px">↓</kbd> ya da <kbd style="font-size:11px;background:var(--paper-edge);border:1px solid var(--pencil);border-radius:4px;padding:2px 7px">Space</kbd> ile sonraki karta geç. Telefonda parmakla kaydır. <b>TR/EN dil desteği</b> sağ üstteki düğmeden.
+      </p>
+      <p class="lang-en">
+        <b>GoLove</b> is a card-based series for absolute beginners to Go. Each chapter has 10–14 cards. Each card teaches one concept. Each card takes 5–10 seconds.
+      </p>
+      <p class="lang-en">
+        Press <kbd style="font-size:11px;background:var(--paper-edge);border:1px solid var(--pencil);border-radius:4px;padding:2px 7px">↓</kbd> or <kbd style="font-size:11px;background:var(--paper-edge);border:1px solid var(--pencil);border-radius:4px;padding:2px 7px">Space</kbd> to advance. Swipe on mobile. <b>TR/EN toggle</b> at the top right.
+      </p>
+    </section>
+
+    <h2 style="color:var(--paper);font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:0.85;margin:0 0 14px;padding-left:4px;">
+      <span class="lang-tr">Bölümler</span>
+      <span class="lang-en">Chapters</span>
+    </h2>
+
+    <div class="chapter-grid" id="chapterGrid">
+      <!-- chapter tiles injected by app.js or fallback static below -->
+    </div>
+
+    <noscript>
+      <div class="chapter-grid">
+        <a class="chapter-tile" href="01-first-steps.html">
+          <span class="ch-num">01</span>
+          <span class="ch-title">İlk Adımlar / First Steps</span>
+        </a>
+        <a class="chapter-tile" href="04-slice.html">
+          <span class="ch-num">04</span>
+          <span class="ch-title">Slice</span>
+        </a>
+      </div>
+    </noscript>
+
+    <footer class="landing-footer">
+      <p>
+        <span class="lang-tr">GoLove · açık kaynak öğrenme kaynağı · MIT lisansı</span>
+        <span class="lang-en">GoLove · open-source learning resource · MIT license</span>
+      </p>
+    </footer>
+
+  </main>
+
+  <script src="assets/app.js"></script>
+  <script>
+    // Render chapter grid using GoLove manifest
+    (function () {
+      const grid = document.getElementById('chapterGrid');
+      if (!grid || !window.GoLove) return;
+      const { CHAPTERS, AVAILABLE } = window.GoLove;
+      grid.innerHTML = CHAPTERS.map((ch, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        const available = AVAILABLE.has(ch.slug);
+        const tag = available ? 'a' : 'div';
+        const href = available ? ` href="${ch.slug}.html"` : '';
+        return `
+          <${tag} class="chapter-tile${available ? '' : ' coming'}"${href}>
+            <span class="ch-num">${num}</span>
+            <span class="ch-title">
+              <span class="lang-tr">${ch.tr}</span>
+              <span class="lang-en">${ch.en}</span>
+            </span>
+          </${tag}>
+        `;
+      }).join('');
+    })();
+  </script>
+</body>
+</html>

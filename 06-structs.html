@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 06 · Struct ve Metot</title>
+  <meta name="description" content="Go'da struct ve metot — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="06-structs">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 06 · Struct ve Metot</span>
+        <span class="lang-en">GoLove · 06 · Structs &amp; Methods</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~3 dakika · kendi tipini yarat</span>
+        <span class="lang-en">11 cards · ~3 minutes · build your own types</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">🏗️</span>
+        <span class="lang-tr">Niye struct?</span>
+        <span class="lang-en">Why a struct?</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Bu çirkin:</span>
+ad1 := <span class="str">"Ada"</span>;    yas1 := <span class="num">12</span>
+ad2 := <span class="str">"Mehmet"</span>; yas2 := <span class="num">25</span>
+
+<span class="com">// Struct ile temiz:</span>
+<span class="kw">type</span> <span class="typ">Kisi</span> <span class="kw">struct</span> {
+    Ad  <span class="typ">string</span>
+    Yas <span class="typ">int</span>
+}</pre>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">İlişkili verileri tek bir paket olarak tutar.</span>
+        <span class="lang-en">A struct keeps related data in one package.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Bir kişi ad <i>ve</i> yaştan oluşur — ayrı tutmak akılda kalmaz. Struct ikisini birleştirir.</span>
+        <span class="lang-en">A person has a name <i>and</i> an age — separating them is messy. A struct ties them together.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Nasıl tanımlarız?</span>
+        <span class="lang-en">How do we define one?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">📋</span>
+        <span class="lang-tr">Struct tanımla</span>
+        <span class="lang-en">Define a struct</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">type</span> <span class="typ">Kitap</span> <span class="kw">struct</span> {
+    Baslik  <span class="typ">string</span>
+    Yazar   <span class="typ">string</span>
+    Yil     <span class="typ">int</span>
+}</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">type [İsim] struct { alanlar }</code></span>
+        <span class="lang-en"><code class="inl">type [Name] struct { fields }</code></span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Tip adı ve alanlar büyük harfle başlarsa dışa açık olur. Küçük olursa paket içi kalır.</span>
+        <span class="lang-en">Capitalised type or field name → exported. Lowercase → package-private.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Değer nasıl yaratılır?</span>
+        <span class="lang-en">How to create a value?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🆕</span>
+        <span class="lang-tr">Değer yarat</span>
+        <span class="lang-en">Create a value</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// 1. Alan adlarıyla — okunaklı</span>
+k := <span class="typ">Kitap</span>{
+    Baslik: <span class="str">"Tutunamayanlar"</span>,
+    Yazar:  <span class="str">"Oğuz Atay"</span>,
+    Yil:    <span class="num">1971</span>,
+}
+
+<span class="com">// 2. Sırayla — kısa ama riskli</span>
+k := <span class="typ">Kitap</span>{<span class="str">"Tutunamayanlar"</span>, <span class="str">"Oğuz Atay"</span>, <span class="num">1971</span>}
+
+<span class="com">// 3. Boş — sıfır değerlerle</span>
+<span class="kw">var</span> k <span class="typ">Kitap</span>     <span class="com">// {"" "" 0}</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Üç yol — alan adlarıyla yazmak en güvenlisi.</span>
+        <span class="lang-en">Three ways — naming the fields is safest.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Sırayla yazımda alan eklersen tüm kullanımlar kırılır. Alan adlarıyla yazsan kırılmaz.</span>
+        <span class="lang-en">Positional form breaks every usage when you add a field. Named form survives.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Alanlara erişmek?</span>
+        <span class="lang-en">Reading the fields?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">🔍</span>
+        <span class="lang-tr">Alanlara eriş — nokta</span>
+        <span class="lang-en">Field access — dot</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">fmt.<span class="fn">Println</span>(k.Baslik)   <span class="com">// Tutunamayanlar</span>
+
+k.Yil = <span class="num">1972</span>            <span class="com">// güncelle</span>
+k.Baslik = <span class="str">"Tehlikeli Oyunlar"</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr"><code class="inl">değer.alan</code> ile oku ve yaz.</span>
+        <span class="lang-en">Use <code class="inl">value.field</code> to read and write.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Hiçbir özel sözdizimi yok. Nokta operatörü tek başına yeterli — getter/setter yazma.</span>
+        <span class="lang-en">No special syntax. The dot operator alone does it — no need to write getters/setters.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Yapıya davranış eklemek?</span>
+        <span class="lang-en">Adding behaviour?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 — Methods -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">🛠️</span>
+        <span class="lang-tr">Metot — yapıya bağlı fonksiyon</span>
+        <span class="lang-en">Method — function tied to a type</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> (k <span class="typ">Kitap</span>) <span class="fn">Etiket</span>() <span class="typ">string</span> {
+    <span class="kw">return</span> k.Baslik + <span class="str">" — "</span> + k.Yazar
+}
+
+k.<span class="fn">Etiket</span>()   <span class="com">// "Tutunamayanlar — Oğuz Atay"</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr"><code class="inl">func (alıcı Tip) İsim() ...</code> — fonksiyon yapıya bağlanır.</span>
+        <span class="lang-en"><code class="inl">func (receiver Type) Name() ...</code> — function attached to a type.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Parantezdeki <b>alıcı (receiver)</b> = "bu metot hangi tipe ait?" Çağırırken <code class="inl">k.Etiket()</code> şeklinde nokta ile.</span>
+        <span class="lang-en">The <b>receiver</b> in parens says "which type owns this method?" Call it with a dot: <code class="inl">k.Etiket()</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Yapıyı değiştirmek istiyorsan?</span>
+        <span class="lang-en">What if you need to mutate?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 — Pointer receiver -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">📌</span>
+        <span class="lang-tr">Pointer receiver — değiştir</span>
+        <span class="lang-en">Pointer receiver — to mutate</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Kopya alır, değişiklik dışarı yansımaz:</span>
+<span class="kw">func</span> (k <span class="typ">Kitap</span>) <span class="fn">YilArtir</span>()  { k.Yil++ }
+
+<span class="com">// Pointer alır, asıl yapıyı değiştirir:</span>
+<span class="kw">func</span> (k *<span class="typ">Kitap</span>) <span class="fn">YilArtir</span>() { k.Yil++ }</pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Değiştirmek istiyorsan <code class="inl">*Tip</code> ile alıcı al.</span>
+        <span class="lang-en">To mutate, use a pointer receiver: <code class="inl">*Type</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Genel kural: bir metot grubunda <b>tutarlı kal</b> — ya hepsi pointer, ya hepsi değer. Karışım kafa karıştırır.</span>
+        <span class="lang-en">Rule of thumb: stay <b>consistent</b> within a method set — all pointer, or all value. Mixing confuses readers.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Değer yaratmak için kalıp?</span>
+        <span class="lang-en">A pattern for creating values?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 — Constructor -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🏭</span>
+        <span class="lang-tr">NewX — yapıcı kalıbı</span>
+        <span class="lang-en">NewX — the constructor pattern</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">func</span> <span class="fn">NewKitap</span>(baslik, yazar <span class="typ">string</span>) <span class="typ">Kitap</span> {
+    <span class="kw">return</span> <span class="typ">Kitap</span>{
+        Baslik: baslik,
+        Yazar:  yazar,
+        Yil:    <span class="num">2026</span>,    <span class="com">// varsayılan</span>
+    }
+}
+
+k := <span class="fn">NewKitap</span>(<span class="str">"Saatleri Ayarlama"</span>, <span class="str">"Tanpınar"</span>)</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Go'da <code class="inl">constructor</code> keyword'u yok — sadece <code class="inl">NewX</code> isimli fonksiyon yazılır.</span>
+        <span class="lang-en">Go has no <code class="inl">constructor</code> keyword — write a function called <code class="inl">NewX</code>.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Varsayılan değerler veya doğrulama gerekiyorsa kullan. Basit yapılarda direkt literal de yeterli.</span>
+        <span class="lang-en">Use it when you need defaults or validation. For simple structs, the literal is enough.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">İki struct aynı mı?</span>
+        <span class="lang-en">Are two structs equal?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 — Comparison -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">⚖️</span>
+        <span class="lang-tr">== ile karşılaştır</span>
+        <span class="lang-en">Compare with ==</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">a := <span class="typ">Kitap</span>{<span class="str">"X"</span>, <span class="str">"Y"</span>, <span class="num">2020</span>}
+b := <span class="typ">Kitap</span>{<span class="str">"X"</span>, <span class="str">"Y"</span>, <span class="num">2020</span>}
+
+a == b    <span class="com">// true (her alan aynı)</span>
+
+<span class="com">// ⚠ İçinde slice/map varsa == hata verir!</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Tüm alanlar karşılaştırılabilirse <code class="inl">==</code> çalışır.</span>
+        <span class="lang-en"><code class="inl">==</code> works if all fields are comparable.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Slice, map, function alanı varsa <code class="inl">==</code> derleme hatası verir. <code class="inl">reflect.DeepEqual</code> daha hoşgörülü.</span>
+        <span class="lang-en">If a struct contains slice, map, or function fields, <code class="inl">==</code> won't compile. <code class="inl">reflect.DeepEqual</code> is more forgiving.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Bir tipi başka tipe gömmek?</span>
+        <span class="lang-en">Embedding one type in another?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 — Embedding -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">↔️</span>
+        <span class="lang-tr">Embedding — kompozisyon</span>
+        <span class="lang-en">Embedding — composition</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">type</span> <span class="typ">Adres</span> <span class="kw">struct</span> { Sehir <span class="typ">string</span> }
+
+<span class="kw">type</span> <span class="typ">Kullanici</span> <span class="kw">struct</span> {
+    Ad <span class="typ">string</span>
+    <span class="typ">Adres</span>     <span class="com">// alan adı yok — gömülü</span>
+}
+
+u := <span class="typ">Kullanici</span>{<span class="str">"Ada"</span>, <span class="typ">Adres</span>{<span class="str">"İzmir"</span>}}
+fmt.<span class="fn">Println</span>(u.Sehir)   <span class="com">// "İzmir" — direkt!</span></pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr">Tip adını alan ismi olmadan yaz → alanları "yukarı çıkar".</span>
+        <span class="lang-en">Write the type without a field name → its fields "promote up".</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Inheritance değil, kompozisyon. Go'da "is-a" yerine "has-a" kalıbı tercih edilir.</span>
+        <span class="lang-en">Not inheritance — composition. Go prefers "has-a" over "is-a".</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Sıfır değer ne demek struct'ta?</span>
+        <span class="lang-en">What's the zero value of a struct?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 — Zero value -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">0️⃣</span>
+        <span class="lang-tr">Sıfır değerli struct</span>
+        <span class="lang-en">Zero-value struct</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">var</span> k <span class="typ">Kitap</span>
+
+<span class="com">// k.Baslik = ""</span>
+<span class="com">// k.Yazar  = ""</span>
+<span class="com">// k.Yil    = 0</span>
+
+<span class="com">// Yine de geçerli bir Kitap. Hata atmaz.</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">Değer atamadan da kullanılabilir bir struct olabilir.</span>
+        <span class="lang-en">A struct can be useful even with no values assigned.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">İyi tasarlanmış Go yapıları sıfır değerleriyle <i>doğrudan kullanılabilir</i>. <code class="inl">bytes.Buffer</code>, <code class="inl">sync.Mutex</code> böyledir.</span>
+        <span class="lang-en">Well-designed Go structs are <i>useful from their zero value</i>. <code class="inl">bytes.Buffer</code>, <code class="inl">sync.Mutex</code> are like this.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 — Summary -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">veri + davranış = struct + metot</p>
+        <p class="big purple lang-en">data + behaviour = struct + methods</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Tanımla → yarat → eriş → metot ekle.</span>
+        <span class="lang-en">Define → create → access → add methods.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>📋 tanımla:</b> <code class="inl">type X struct { ... }</code><br/>
+          <b>🆕 yarat:</b> <code class="inl">X{Alan: değer}</code><br/>
+          <b>🔍 eriş:</b> <code class="inl">x.Alan</code><br/>
+          <b>🛠️ metot:</b> <code class="inl">func (x X) Ad() {}</code><br/>
+          <b>📌 değiştir:</b> pointer receiver <code class="inl">*X</code><br/>
+          <b>🏭 yapıcı:</b> <code class="inl">NewX(...)</code> kalıbı<br/>
+          <b>↔️ embed:</b> alan adı olmadan tip
+        </span>
+        <span class="lang-en">
+          <b>📋 define:</b> <code class="inl">type X struct { ... }</code><br/>
+          <b>🆕 create:</b> <code class="inl">X{Field: value}</code><br/>
+          <b>🔍 access:</b> <code class="inl">x.Field</code><br/>
+          <b>🛠️ method:</b> <code class="inl">func (x X) Name() {}</code><br/>
+          <b>📌 mutate:</b> pointer receiver <code class="inl">*X</code><br/>
+          <b>🏭 constructor:</b> <code class="inl">NewX(...)</code> pattern<br/>
+          <b>↔️ embed:</b> a type without a field name
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

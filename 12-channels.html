@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>GoLove · 12 · Channel</title>
+  <meta name="description" content="Go'da channel — kart kart, TR/EN." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="chapter" data-chapter="12-channels">
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+  <a class="home-link" href="index.html"><span class="lang-tr">↩ Bölümler</span><span class="lang-en">↩ Chapters</span></a>
+  <button class="lang-toggle" id="langToggle" aria-label="Language">
+    <span id="lt-tr" class="active">TR</span><span class="sep">/</span><span id="lt-en">EN</span>
+  </button>
+  <nav class="dots" aria-label="Cards"></nav>
+  <div class="hint">
+    <span class="lang-tr">↓ veya Space — sonraki kart</span>
+    <span class="lang-en">↓ or Space — next card</span>
+  </div>
+
+  <!-- INTRO -->
+  <section class="card" id="c0">
+    <div class="card-inner banner">
+      <h1>
+        <span class="gopher">⬡</span>
+        <span class="lang-tr">GoLove · 12 · Channel</span>
+        <span class="lang-en">GoLove · 12 · Channels</span>
+      </h1>
+      <span class="sub">
+        <span class="lang-tr">11 kart · ~3 dakika · goroutine'ler arası iletişim</span>
+        <span class="lang-en">11 cards · ~3 minutes · talk between goroutines</span>
+      </span>
+      <p class="keys">
+        <span class="lang-tr">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — sonraki<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — önceki &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — başa/sona
+        </span>
+        <span class="lang-en">
+          <kbd>↓</kbd> <kbd>Space</kbd> <kbd>Enter</kbd> <kbd>j</kbd> — next<br/>
+          <kbd>↑</kbd> <kbd>k</kbd> — previous &nbsp;·&nbsp; <kbd>Home</kbd>/<kbd>End</kbd> — first/last
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C1 -->
+  <section class="card" id="c1">
+    <div class="card-inner">
+      <span class="num-badge">1<span class="of">/11</span></span>
+      <h2 class="hook cyan">
+        <span class="emoji">📡</span>
+        <span class="lang-tr">Niye channel?</span>
+        <span class="lang-en">Why a channel?</span>
+      </h2>
+      <div class="stage">
+        <div style="text-align:center;">
+          <div class="items">
+            <span>🏃</span><span style="font-size:30px;color:var(--cyan)">━━━</span><span>🏃</span>
+          </div>
+          <p style="font-size:13.5px;color:var(--pencil);margin-top:18px;font-weight:500;line-height:1.6;">
+            <span class="lang-tr">iki goroutine bir boruyla konuşur</span>
+            <span class="lang-en">two goroutines talk through a pipe</span>
+          </p>
+        </div>
+      </div>
+      <p class="punch cyan">
+        <span class="lang-tr">"Belleği paylaşma. Mesaj yolla."</span>
+        <span class="lang-en">"Don't share memory. Pass messages."</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Channel = goroutine'ler arası tip-güvenli boru. Bir tarafa veri koyarsın, diğer taraftan biri çeker.</span>
+        <span class="lang-en">A channel = a typed pipe between goroutines. One side sends, the other receives.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Nasıl yarıyoruz?</span>
+        <span class="lang-en">How do we make one?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C2 -->
+  <section class="card" id="c2">
+    <div class="card-inner">
+      <span class="num-badge">2<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">🛤️</span>
+        <span class="lang-tr">make ile yarat</span>
+        <span class="lang-en">Create with make</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">ch := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">int</span>)         <span class="com">// int taşıyan kanal</span>
+
+mesajlar := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">string</span>)   <span class="com">// string taşır</span></pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr"><code class="inl">make(chan T)</code> — T tipinde değer taşıyan boru.</span>
+        <span class="lang-en"><code class="inl">make(chan T)</code> — a pipe carrying values of type T.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Tipi sabittir: <code class="inl">chan int</code>'e sadece int gönderirsin. Karışık tip istersen <code class="inl">chan any</code>.</span>
+        <span class="lang-en">Type is fixed: only ints into <code class="inl">chan int</code>. Mixed types need <code class="inl">chan any</code>.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Nasıl gönderir/alırsın?</span>
+        <span class="lang-en">How to send and receive?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C3 -->
+  <section class="card" id="c3">
+    <div class="card-inner">
+      <span class="num-badge">3<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">📨</span>
+        <span class="lang-tr">&lt;- ile gönder ve al</span>
+        <span class="lang-en">&lt;- to send and receive</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">ch &lt;- <span class="num">42</span>           <span class="com">// gönder: ok &lt;- veri</span>
+
+x := &lt;-ch          <span class="com">// al: değişken := &lt;-kanal</span>
+
+&lt;-ch               <span class="com">// al ama değeri at</span></pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Ok yönü = veri akışı. Sol taraf alıcı, sağ taraf kaynak.</span>
+        <span class="lang-en">Arrow = data flow. Left receives, right is source.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Tek operatör (<code class="inl">&lt;-</code>) iki yönü temsil eder. Konum kim konuştuğunu söyler.</span>
+        <span class="lang-en">One operator (<code class="inl">&lt;-</code>) covers both directions. Position tells who's speaking.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tampon yoksa ne olur?</span>
+        <span class="lang-en">What if there's no buffer?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C4 -->
+  <section class="card" id="c4">
+    <div class="card-inner">
+      <span class="num-badge">4<span class="of">/11</span></span>
+      <h2 class="hook blue">
+        <span class="emoji">🤝</span>
+        <span class="lang-tr">Tamponsuz — el sıkışma</span>
+        <span class="lang-en">Unbuffered — handshake</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">ch := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">int</span>)
+
+<span class="kw">go</span> <span class="kw">func</span>() {
+    ch &lt;- <span class="num">42</span>     <span class="com">// alıcı gelene kadar bekler</span>
+}()
+
+x := &lt;-ch       <span class="com">// gönderen olana kadar bekler</span>
+
+<span class="com">// İkisi buluştuğunda iş geçer.</span></pre>
+      </div>
+      <p class="punch blue">
+        <span class="lang-tr">Gönderen ve alıcı <b>aynı anda</b> hazır olmadan iş geçmez.</span>
+        <span class="lang-en">Sender and receiver must be ready <b>at the same time</b> for the transfer to happen.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Bu özellik zamanlama (timing) sorunlarını çözer. WaitGroup yerine bazen channel kullanırsın.</span>
+        <span class="lang-en">This solves timing problems naturally. Sometimes you'll use a channel instead of WaitGroup.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Beklemeden gönderme?</span>
+        <span class="lang-en">Sending without waiting?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C5 -->
+  <section class="card" id="c5">
+    <div class="card-inner">
+      <span class="num-badge">5<span class="of">/11</span></span>
+      <h2 class="hook purple">
+        <span class="emoji">📦</span>
+        <span class="lang-tr">Tamponlu kanal</span>
+        <span class="lang-en">Buffered channel</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">ch := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">int</span>, <span class="num">3</span>)   <span class="com">// 3 kapasite</span>
+
+ch &lt;- <span class="num">1</span>   <span class="com">// dolu değil → bekleme yok</span>
+ch &lt;- <span class="num">2</span>
+ch &lt;- <span class="num">3</span>
+ch &lt;- <span class="num">4</span>   <span class="com">// dolu → blok</span></pre>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">İkinci argüman = kuyruk boyutu. Dolana kadar gönderim engellenmez.</span>
+        <span class="lang-en">Second argument = queue size. Sends don't block until it's full.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Doluyken yazmak ya da boşken okumak yine bekler. Tampon performans için, sürpriz için değil.</span>
+        <span class="lang-en">Writing when full or reading when empty still blocks. Buffers are for throughput, not surprise.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">"Bittim" demek?</span>
+        <span class="lang-en">Saying "I'm done"?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C6 -->
+  <section class="card" id="c6">
+    <div class="card-inner">
+      <span class="num-badge">6<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">🔚</span>
+        <span class="lang-tr">close + range</span>
+        <span class="lang-en">close + range</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">go</span> <span class="kw">func</span>() {
+    <span class="kw">for</span> i := <span class="num">1</span>; i &lt;= <span class="num">3</span>; i++ {
+        ch &lt;- i
+    }
+    <span class="fn">close</span>(ch)         <span class="com">// "artık veri yok"</span>
+}()
+
+<span class="kw">for</span> v := <span class="kw">range</span> ch {    <span class="com">// kapanana kadar gez</span>
+    fmt.<span class="fn">Println</span>(v)
+}</pre>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Gönderim biterse <code class="inl">close</code>. <code class="inl">range</code> kapanmayı görünce durur.</span>
+        <span class="lang-en">When sending ends, <code class="inl">close</code>. <code class="inl">range</code> stops when it sees the close.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Sadece <b>gönderen</b> kapatır. Kapalı kanala yazmak panic. Tekrar kapatmak panic.</span>
+        <span class="lang-en">Only the <b>sender</b> closes. Writing to a closed channel panics. Closing twice panics.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Birden fazla kanalı dinlemek?</span>
+        <span class="lang-en">Listening to multiple channels?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C7 -->
+  <section class="card" id="c7">
+    <div class="card-inner">
+      <span class="num-badge">7<span class="of">/11</span></span>
+      <h2 class="hook orange">
+        <span class="emoji">🎰</span>
+        <span class="lang-tr">select — hangi gelirse</span>
+        <span class="lang-en">select — whichever arrives</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="kw">select</span> {
+<span class="kw">case</span> v := &lt;-ch1:
+    fmt.<span class="fn">Println</span>(<span class="str">"ch1:"</span>, v)
+<span class="kw">case</span> v := &lt;-ch2:
+    fmt.<span class="fn">Println</span>(<span class="str">"ch2:"</span>, v)
+<span class="kw">case</span> &lt;-time.<span class="fn">After</span>(<span class="num">1</span>*time.Second):
+    fmt.<span class="fn">Println</span>(<span class="str">"timeout"</span>)
+}</pre>
+      </div>
+      <p class="punch orange">
+        <span class="lang-tr">Birden fazla kanal arasında <i>ilk hazır olanı</i> seçer.</span>
+        <span class="lang-en">Picks <i>the first ready</i> channel among many.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">İkisi aynı anda hazırsa rastgele biri çalışır. <code class="inl">default</code> case eklersen hiç bekleme yapmaz.</span>
+        <span class="lang-en">If multiple are ready, one is picked at random. Add <code class="inl">default</code> to skip waiting entirely.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Kanalın yönünü kısıtlamak?</span>
+        <span class="lang-en">Restricting direction?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C8 -->
+  <section class="card" id="c8">
+    <div class="card-inner">
+      <span class="num-badge">8<span class="of">/11</span></span>
+      <h2 class="hook pink">
+        <span class="emoji">↗️</span>
+        <span class="lang-tr">Yön kısıtlaması</span>
+        <span class="lang-en">Direction restriction</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg"><span class="com">// Sadece gönderebilen function:</span>
+<span class="kw">func</span> <span class="fn">uretici</span>(ch <span class="kw">chan</span>&lt;- <span class="typ">int</span>) {
+    ch &lt;- <span class="num">42</span>
+}
+
+<span class="com">// Sadece alabilen function:</span>
+<span class="kw">func</span> <span class="fn">tuketici</span>(ch &lt;-<span class="kw">chan</span> <span class="typ">int</span>) {
+    fmt.<span class="fn">Println</span>(&lt;-ch)
+}</pre>
+      </div>
+      <p class="punch pink">
+        <span class="lang-tr"><code class="inl">chan&lt;- T</code> sadece gönder · <code class="inl">&lt;-chan T</code> sadece al.</span>
+        <span class="lang-en"><code class="inl">chan&lt;- T</code> send only · <code class="inl">&lt;-chan T</code> receive only.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Function imzasında kullanırsan derleyici kanalı yanlış yönde kullanmanı engeller.</span>
+        <span class="lang-en">In function signatures, the compiler stops you from using the channel the wrong way.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">En sık tuzaklar?</span>
+        <span class="lang-en">Common traps?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C9 -->
+  <section class="card" id="c9">
+    <div class="card-inner">
+      <span class="num-badge">9<span class="of">/11</span></span>
+      <h2 class="hook red">
+        <span class="emoji">🪤</span>
+        <span class="lang-tr">Tuzaklar</span>
+        <span class="lang-en">Traps</span>
+      </h2>
+      <div class="stage">
+        <div class="anatomy lang-tr">
+          <div class="row red"><span class="key">close edilmiş'e yaz</span><span class="val">→ panic</span></div>
+          <div class="row red"><span class="key">iki kez close</span><span class="val">→ panic</span></div>
+          <div class="row orange"><span class="key">kimse almıyor</span><span class="val">→ deadlock (her iki taraf bekliyor)</span></div>
+          <div class="row orange"><span class="key">nil channel</span><span class="val">→ sonsuza kadar bloklar</span></div>
+        </div>
+        <div class="anatomy lang-en">
+          <div class="row red"><span class="key">write to closed</span><span class="val">→ panic</span></div>
+          <div class="row red"><span class="key">close twice</span><span class="val">→ panic</span></div>
+          <div class="row orange"><span class="key">no receiver</span><span class="val">→ deadlock (everyone waits)</span></div>
+          <div class="row orange"><span class="key">nil channel</span><span class="val">→ blocks forever</span></div>
+        </div>
+      </div>
+      <p class="punch red">
+        <span class="lang-tr">Channel güçlü ama hassas — kuralları unutma.</span>
+        <span class="lang-en">Channels are powerful but picky — keep the rules in mind.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Pratik kural: "Gönderen kapatır." "Alıcı close olduğunu range veya <code class="inl">v, ok :=</code> ile öğrenir."</span>
+        <span class="lang-en">Practical rule: "Sender closes." "Receiver detects close via range or <code class="inl">v, ok :=</code>."</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Çok kullanılan kalıp?</span>
+        <span class="lang-en">A common pattern?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C10 -->
+  <section class="card" id="c10">
+    <div class="card-inner">
+      <span class="num-badge">10<span class="of">/11</span></span>
+      <h2 class="hook green">
+        <span class="emoji">👥</span>
+        <span class="lang-tr">Worker pool kalıbı</span>
+        <span class="lang-en">Worker pool pattern</span>
+      </h2>
+      <div class="stage">
+<pre class="code lg">isler   := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">int</span>, <span class="num">10</span>)
+sonuc := <span class="fn">make</span>(<span class="kw">chan</span> <span class="typ">int</span>, <span class="num">10</span>)
+
+<span class="com">// 3 worker başlat</span>
+<span class="kw">for</span> w := <span class="num">0</span>; w &lt; <span class="num">3</span>; w++ {
+    <span class="kw">go</span> <span class="kw">func</span>() {
+        <span class="kw">for</span> n := <span class="kw">range</span> isler {
+            sonuc &lt;- n * n
+        }
+    }()
+}
+
+<span class="kw">for</span> i := <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++ { isler &lt;- i }
+<span class="fn">close</span>(isler)</pre>
+      </div>
+      <p class="punch green">
+        <span class="lang-tr">Bir kuyruk + N worker = kontrollü paralelizm.</span>
+        <span class="lang-en">One queue + N workers = controlled parallelism.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">Çok yapılan iş için en yaygın Go kalıbı. Kapasiteyi kontrol edersin, sistemi boğmazsın.</span>
+        <span class="lang-en">The most common Go pattern for batch work. You control parallelism — don't melt the box.</span>
+      </p>
+      <p class="tease">
+        <span class="lang-tr">Tek cümlede özet?</span>
+        <span class="lang-en">One-line summary?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- C11 -->
+  <section class="card" id="c11">
+    <div class="card-inner" style="background:linear-gradient(180deg,#FFF7D6,#FCE9A8);">
+      <span class="num-badge" style="background:#FFF7D6;">11<span class="of">/11</span></span>
+      <h2 class="hook">
+        <span class="emoji">🎯</span>
+        <span class="lang-tr">Özet</span>
+        <span class="lang-en">Summary</span>
+      </h2>
+      <div class="stage">
+        <p class="big purple lang-tr">paylaşma · gönder</p>
+        <p class="big purple lang-en">don't share · send</p>
+      </div>
+      <p class="punch purple">
+        <span class="lang-tr">Channel = goroutine'ler arası tip-güvenli mesaj borusu.</span>
+        <span class="lang-en">Channel = a typed message pipe between goroutines.</span>
+      </p>
+      <p class="micro">
+        <span class="lang-tr">
+          <b>🛤️ yarat:</b> <code class="inl">make(chan T)</code> · <code class="inl">make(chan T, 10)</code><br/>
+          <b>📨 gönder:</b> <code class="inl">ch &lt;- v</code><br/>
+          <b>📥 al:</b> <code class="inl">v := &lt;-ch</code> · <code class="inl">v, ok := &lt;-ch</code><br/>
+          <b>🔚 bitir:</b> <code class="inl">close(ch)</code> + <code class="inl">for v := range ch</code><br/>
+          <b>🎰 seç:</b> <code class="inl">select { case ... }</code><br/>
+          <b>↗️ yön:</b> <code class="inl">chan&lt;-</code> / <code class="inl">&lt;-chan</code><br/>
+          <b>👥 kalıp:</b> kuyruk + N worker
+        </span>
+        <span class="lang-en">
+          <b>🛤️ create:</b> <code class="inl">make(chan T)</code> · <code class="inl">make(chan T, 10)</code><br/>
+          <b>📨 send:</b> <code class="inl">ch &lt;- v</code><br/>
+          <b>📥 receive:</b> <code class="inl">v := &lt;-ch</code> · <code class="inl">v, ok := &lt;-ch</code><br/>
+          <b>🔚 done:</b> <code class="inl">close(ch)</code> + <code class="inl">for v := range ch</code><br/>
+          <b>🎰 select:</b> <code class="inl">select { case ... }</code><br/>
+          <b>↗️ direction:</b> <code class="inl">chan&lt;-</code> / <code class="inl">&lt;-chan</code><br/>
+          <b>👥 pattern:</b> queue + N workers
+        </span>
+      </p>
+      <p class="tease" style="text-align:left;color:var(--green);">
+        <span class="lang-tr">Bölüm tamamlandı 🎉</span>
+        <span class="lang-en">Chapter complete 🎉</span>
+      </p>
+    </div>
+  </section>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
