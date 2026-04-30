@@ -31,3 +31,5 @@ GoLove is a card-based learning resource for the **Go programming language**, de
 ## License
 
 MIT
+
+## Have Fun
